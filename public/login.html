@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>MedApp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="css/app.css" />
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+   integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="wrapper">
+      <div class="block-center mt-4 wd-xl">
+        <div class="card card-flat">
+          <div class="card-header text-center bg-dark">
+              <h1>MedApp</h1>
+          </div>
+          <div class="card-body">
+            <p class="text-center py-2">Ingrese al sistema</p>
+            <form class="mb-3" id="loginForm" novalidate>
+              <div class="form-group">
+                <div class="input-group with-focus">
+                  <input class="form-control border-right-0" id="exampleInputEmail1" type="email"
+                    placeholder="Ingrese su email" autocomplete="off" required>
+                  <div class="input-group-append">
+                    <span class="input-group-text text-muted bg-transparent border-left-0">
+                      <em class="fa fa-envelope"></em>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group with-focus">
+                  <input class="form-control border-right-0" id="exampleInputPassword1" type="password"
+                  placeholder="Clave" required>
+                  <div class="input-group-append">
+                    <span class="input-group-text text-muted bg-transparent border-left-0">
+                      <em class="fa fa-lock"></em>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="checkbox c-checkbox float-left mt-0">
+                  <label>
+                    <input type="checkbox" value="" name="remember">
+                    <span class="fa fa-check"></span>Recordarme</label>
+                </div>
+                <div class="float-right">
+                  <a class="text-muted" href="recover.html">Olvide su clave?</a>
+                </div>
+              </div>
+              <button class="btn btn-block btn-primary mt-3" type="submit">Ingresar</button>
+            </form>
+            <p class="pt-3 text-center">Aún no tiene usuario?</p>
+            <a class="btn btn-block btn-secondary" href="register.html">Registrarse</a>
+          </div>
+        </div>
+        <div class="p-3 text-center">
+          <span class="mr-2">&copy;</span>
+          <span>2018</span>
+          <span class="mr-2">-</span>
+          <span>MedApp</span>
+        </div>
+      </div>
+    </div>
+</body>
+</html>
