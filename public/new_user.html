@@ -57,23 +57,53 @@
           <div class="card">
             <div class="card-header">
               <h3 class="text-muted mt-0">
-                  Buscar paciente
-                <button class="btn btn-labeled btn-primary float-right" type="button">
-                  <span class="btn-label"><i class="fa fa-plus"></i></span>Agregar Paciente
-                </button>
+                  Nuevo Paciente
               </h3>
             </div>
             <div class="card-wrapper">
               <div class="card-body">
-                <div class="row">
-                  <div class="col-12">
+                <div class="row justify-content-md-center">
+                  <div class="col-6">
                     <form>
-                      <div class="input-group input-group-lg">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="inputGroup-sizing-lg"><i class="fa fa-search"></i></span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Ingrese la cédula ..">
+                      <div class="form-group">
+                        <label>Primer Nombre</label>
+                        <input class="form-control" type="text" placeholder="ingrese el primer nombre">
                       </div>
+                      <div class="form-group">
+                        <label>Segundo Nombre</label>
+                        <input class="form-control" type="text" placeholder="ingrese el segundo nombre">
+                      </div>
+                      <div class="form-group">
+                        <label>Primer Apellido</label>
+                        <input class="form-control" type="text" placeholder="ingrese el primer apellido">
+                      </div>
+                      <div class="form-group">
+                        <label>Segundo Apellido</label>
+                        <input class="form-control" type="text" placeholder="ingrese el segundo apellido">
+                      </div>
+                      <div class="form-group">
+                        <label>Genero</label>
+                        <select class="custom-select custom-select-sm">
+                          <option value="0" selected="">Desconocido</option>
+                          <option value="1">Masculino</option>
+                          <option value="2">Femenino</option>
+                          <option value="9">No aplica</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label>Fecha de nacimiento</label>
+                        <input class="form-control" type="date">
+                      </div>
+                      <div class="form-group">
+                        <label>Peso</label>
+                        <input class="form-control" type="date">
+                      </div>
+                      <div class="form-group">
+                        <label>Altura</label>
+                        <input class="form-control" type="date">
+                      </div>
+
+                      <button class="btn btn-sm btn-secondary" type="submit">Crear</button>
                     </form>
                   </div>
                 </div>
