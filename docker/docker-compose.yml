@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+    db:
+        container_name: medapp-db
+        image: mariadb:10.0
+        volumes:
+            - medapp_db_dir:/var/lib/mysql
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        ports:
+         - "${APP_PORT_DB}:3306"
+
+    php:
+        build: ./php
+        container_name: medapp-php
+        image: medapp-php
+        links:
+            - db
+        volumes:
+            - ${APP_DIR}:/home/app:cached
+
+    web:
+        build: ./web
+        container_name: medapp-web
+        image: medapp-web
+        ports:
+            - ${APP_PORT}:80
+        volumes:
+            - ${APP_DIR}:/home/app:ro
+        links:
+            - php
+
+volumes:
+    medapp_db_dir:
