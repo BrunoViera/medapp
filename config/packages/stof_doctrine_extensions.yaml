@@ -3,6 +3,6 @@
 stof_doctrine_extensions:
     default_locale: '%locale%'
     orm:
-      default:
-        timestampable: true
-        blameable: true
+        default:
+            timestampable: true
+            blameable: true

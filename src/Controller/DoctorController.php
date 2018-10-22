@@ -34,41 +34,45 @@ class DoctorController extends Controller
      */
     public function register(DoctorService $docService, Request $request, AuthorizationCheckerInterface $authChecker)
     {
-        // if ($authChecker->isGranted('IS_AUTHENTICATED_FULLY')) {
-        //     return $this->redirectToRoute('homepage');
-        // }
+        if ($authChecker->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('homepage');
+        }
 
         // build the form
         $doctor = $docService->create();
         $form = $this->createForm(DoctorRegistrationType::class, $doctor);
+        $error = false;
 
-        //handle the submit
-        // $form->handleRequest($request);
-        // if ($form->isSubmitted()) {
-        //     if ($form->isValid()) {
-        //         try {
-        //             // register the user
-        //             $this->getService()->register($user);
+        // handle the submit
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                try {
+                    // register the user
+                    $docService->register($doctor);
 
-        //             // send notification email
-        //             $this->get('mailer_service')->sendEmail(
-        //                 'Registro Correcto',
-        //                 [$user->getEmail() => $user->getName()],
-        //                 'site/registration/email/_register.html.twig',
-        //                 ['user' => $user]
-        //             );
+                    // send notification email
+                    // $this->get('mailer_service')->sendEmail(
+                    //     'Registro Correcto',
+                    //     [$doctor->getEmail() => $doctor->getName()],
+                    //     'site/registration/email/_register.html.twig',
+                    //     ['user' => $doctor]
+                    // );
 
-        //             return $this->redirectToRoute('user_registration_successful');
-        //         } catch (Exception $e) {
-        //             $error = 'Se produjo un error al realizar el registro, por favor intente nuevamente.';
-        //         }
-        //     } else {
-        //         $error = 'Se produjo un error al realizar el registro, por favor intente nuevamente.';
-        //     }
-        // }
+                    // return $this->redirectToRoute('user_registration_successful');
+                    exit;
+                } catch (Exception $e) {
+                    var_dump($e);
+                    $error = 'Se produjo un error al realizar el registro, por favor intente nuevamente.';
+                }
+            } else {
+                $error = 'Se produjo un error al realizar el registro, por favor intente nuevamente.';
+            }
+        }
 
         return $this->render('Doctor/registration.html.twig', [
           'form' => $form->createView(),
+          'error' => $error,
         ]);
     }
 }

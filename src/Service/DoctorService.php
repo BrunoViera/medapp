@@ -32,18 +32,18 @@ class DoctorService
         return $doc;
     }
 
-    // /**
-    //  * @param User $user
-    //  *
-    //  * @return User
-    //  */
-    // public function register(User $user)
-    // {
-    //     $this->em->persist($user);
-    //     $this->em->flush();
+    /**
+     * @param Doctor $doctor
+     *
+     * @return Doctor
+     */
+    public function register(Doctor $doctor)
+    {
+        $this->em->persist($doctor);
+        $this->em->flush();
 
-    //     return $user;
-    // }
+        return $doctor;
+    }
 
     // /**
     //  * @param User $user

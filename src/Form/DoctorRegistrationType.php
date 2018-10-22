@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
@@ -66,42 +67,37 @@ class DoctorRegistrationType extends AbstractType
                 ['attr' => ['placeholder' => '1234567890'], 'label' => 'Número de Caja de los profesionales']
             )
             ->add(
-                'policyPrivacy',
-                CheckboxType::class,
-                ['mapped' => false, 'constraints' => new IsTrue(), 'label' => 'Acepto los términos del servicio']
-            )
-            ->add(
                 'password',
                 RepeatedType::class,
                 [
                     'mapped' => false,
                     'type' => PasswordType::class,
+                    'invalid_message' => 'Las claves deben coincidir',
                     'first_options' => ['attr' => ['placeholder' => 'Contraseña'], 'label' => 'Contraseña'],
                     'second_options' => [
                         'attr' => ['placeholder' => 'Confirma la contraseña'],
                         'label' => 'Repita la contraseña'],
                     'required' => true
                 ]
-            );
+            )
+            ->add('send', SubmitType::class, ['attr' => ['class' => 'btn btn-block btn-primary mt-3'], 'label' => 'Registrarme']);
 
-        // $builder->addEventListener(
-        //     FormEvents::POST_SUBMIT,
-        //     function (FormEvent $event) {
-        //         $user = $event->getForm()->getData();
 
-        //         $newsletterAcceptance = ($event->getForm()->get('newsletterAcceptance')->getData()) ? new \DateTime() : null;
-        //         $user->setNewsletterAcceptance($newsletterAcceptance);
+        $builder->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) {
+                $doc = $event->getForm()->getData();
 
-        //         $newPassword = $event->getForm()->get('password')->getData();
-        //         if (strlen($newPassword) < 8) {
-        //             $event->getForm()->addError(new FormError('La contraseña debe ser mayor a 8 caracteres.'));
-        //             return;
-        //         }
+                $newPassword = $event->getForm()->get('password')->getData();
+                if (strlen($newPassword) < 8) {
+                    $event->getForm()->addError(new FormError('La contraseña debe ser mayor a 8 caracteres.'));
+                    return;
+                }
 
-        //         $newPassword = $this->encoder->encodePassword($user,$newPassword);
-        //         $user->setPassword($newPassword);
-        //     }
-        // );
+                $newPassword = $this->encoder->encodePassword($doc, $newPassword);
+                $doc->setPassword($newPassword);
+            }
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver)

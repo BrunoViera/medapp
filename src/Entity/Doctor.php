@@ -38,9 +38,12 @@ class Doctor implements UserInterface
     private $password;
 
     /**
-     * @Assert\NotBlank(groups={"recover_password_request", "Default"})
+     * @Assert\NotBlank(message="Debe ingresar un Email", groups={"recover_password_request", "Default"})
      * @Assert\Length(max=127, groups={"recover_password_request", "Default"})
-     * @Assert\Email(groups={"recover_password_request", "Default"})
+     * @Assert\Email(
+     *      groups={"recover_password_request", "Default"},
+     *      message = "El email '{{ value }}' no es un email válido."
+     * )
      * @ORM\Column(name="doctor_email", type="string", length=127, unique=true)
      */
     private $email;
@@ -51,35 +54,35 @@ class Doctor implements UserInterface
     private $isActive;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Debe ingresar un Nombre")
      * @Assert\Length(max=127)
      * @ORM\Column(name="doctor_name", type="string", length=127)
      */
     private $name;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Debe ingresar sus Apellidos")
      * @Assert\Length(max=127)
      * @ORM\Column(name="doctor_last_name", type="string", length=127)
      */
     private $lastName;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Debe ingresar un Teléfono")
      * @Assert\Length(max=15)
      * @ORM\Column(name="doctor_phone", type="string", length=15)
      */
     private $phone;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Debe ingresar su Cédula de Identidad")
      * @Assert\Length(max=8)
      * @ORM\Column(name="doctor_identity", type="string", length=8)
      */
     private $identity;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Debe ingresar un Número de Caja de los Profesionales")
      * @Assert\Length(max=8)
      * @ORM\Column(name="doctor_profesional_input", type="string", length=15)
      */
@@ -99,14 +102,14 @@ class Doctor implements UserInterface
 
     /**
      * @Assert\DateTime()
-     * @ Gedmo\Timestampable(on="create")
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="doctor_created_at", type="datetime")
      */
     private $createdAt;
 
     /**
      * @Assert\DateTime()
-     * @ Gedmo\Timestampable(on="update")
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="doctor_modified_at", type="datetime")
      */
     private $modifiedAt;
