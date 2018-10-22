@@ -17,12 +17,6 @@ use App\Form\DoctorRegistrationType;
  */
 class DoctorController extends Controller
 {
-    // private $doctorService;
-
-    // public function __construct(DoctorService $doctorService)
-    // {
-    //     $this->doctorService = $doctorService;
-    // }
 
     /**
      * @Route("/registro", name="registration")
@@ -59,10 +53,8 @@ class DoctorController extends Controller
                     //     ['user' => $doctor]
                     // );
 
-                    // return $this->redirectToRoute('user_registration_successful');
-                    exit;
+                    return $this->redirectToRoute('login');
                 } catch (Exception $e) {
-                    var_dump($e);
                     $error = 'Se produjo un error al realizar el registro, por favor intente nuevamente.';
                 }
             } else {
@@ -70,7 +62,7 @@ class DoctorController extends Controller
             }
         }
 
-        return $this->render('Doctor/registration.html.twig', [
+        return $this->render('doctor/registration.html.twig', [
           'form' => $form->createView(),
           'error' => $error,
         ]);
