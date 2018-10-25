@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block bodyClass %}layout-h{% endblock %}
+
+{% block body %}
+  {{ include('site/blocks/_header.html.twig') }}
+
+  <section class="section-container">
+    <div class="content-wrapper">
+      <div class="unwrap my-3">
+        <div class="card">
+
+          <div class="card-header">
+            <h3 class="text-muted mt-0">
+              Buscar paciente
+              <a class="btn btn-labeled btn-primary float-right" href="{{ path('paciente_add') }}">
+                <span class="btn-label">
+                  <i class="fa fa-plus"></i>
+                </span>
+                Agregar Paciente
+              </a>
+            </h3>
+          </div>
+
+          <div class="card-wrapper">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  <form>
+                    <div class="input-group input-group-lg">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-lg">
+                          <i class="fa fa-search"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control" placeholder="Ingrese la cédula ..">
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+{% endblock %}
