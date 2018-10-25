@@ -17,7 +17,7 @@ class SecurityController extends Controller
 {
 
     /**
-     * @Route("", name="login")
+     * @Route("/login", name="login")
      *
      * @param AuthenticationUtils $authenticationUtils
      * @param AuthorizationCheckerInterface $authChecker
@@ -27,7 +27,7 @@ class SecurityController extends Controller
     public function login(AuthenticationUtils $authenticationUtils, AuthorizationCheckerInterface $authChecker)
     {
         if ($authChecker->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('dashboard');
         }
 
         // get the login error if there is one

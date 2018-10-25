@@ -30,8 +30,10 @@ security:
             remember_me:
                 secret:   '%kernel.secret%'
                 lifetime: 604800
-                path: /
+                path: /login
 
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/registro, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: [ROLE_SITE_USER, ROLE_SITE_DOCTOR] }
         # - { path: ^/profile, roles: ROLE_USER }

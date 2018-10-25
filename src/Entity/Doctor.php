@@ -18,7 +18,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Doctor implements UserInterface
 {
-    // use TimestampableTrait;
 
     /**
      * @ORM\Id()
@@ -77,9 +76,9 @@ class Doctor implements UserInterface
     /**
      * @Assert\NotBlank(message="Debe ingresar su Cédula de Identidad")
      * @Assert\Length(max=8)
-     * @ORM\Column(name="doctor_identity", type="string", length=8)
+     * @ORM\Column(name="doctor_personal_id", type="string", length=8)
      */
-    private $identity;
+    private $personalId;
 
     /**
      * @Assert\NotBlank(message="Debe ingresar un Número de Caja de los Profesionales")
@@ -236,14 +235,14 @@ class Doctor implements UserInterface
         return $this;
     }
 
-    public function getIdentity() : ? string
+    public function getpersonalId() : ? integer
     {
-        return $this->identity;
+        return $this->personalId;
     }
 
-    public function setIdentity(? string $identity) : self
+    public function setpersonalId(? integer $personalId) : self
     {
-        $this->identity = $identity;
+        $this->personalId = $personalId;
 
         return $this;
     }

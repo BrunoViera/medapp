@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-{% form_theme form 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
 <div class="block-center mt-4 wd-xl">
@@ -10,10 +9,17 @@
 
       <div class="card-body">
         <p class="text-center py-2">Ingrese al sistema</p>
-        <form class="mb-3" id="loginForm" novalidate="novalidate">
+        <form class="mb-3" novalidate="novalidate" method="post">
+
+          {% if error %}
+            <div class="alert alert-danger" role="alert">
+              {{ error.message }}
+            </div>
+          {% endif %}
+
           <div class="form-group">
             <div class="input-group with-focus">
-              <input type="email" value="{{ last_username }}" name="email" id="inputEmail"  autofocus="autofocus"
+              <input type="email" value="{{ last_username }}" name="_username" id="inputEmail"  autofocus="autofocus"
                 class="form-control border-right-0" placeholder="Email" required="required">
               <div class="input-group-append">
                 <span class="input-group-text text-muted bg-transparent border-left-0">
@@ -25,7 +31,7 @@
 
           <div class="form-group">
             <div class="input-group with-focus">
-              <input type="password" name="password" id="inputPassword" class="form-control border-right-0"
+              <input type="password" name="_password" id="inputPassword" class="form-control border-right-0"
                 placeholder="Contraseña" required="required">
               <div class="input-group-append">
                 <span class="input-group-text text-muted bg-transparent border-left-0">
@@ -44,7 +50,7 @@
               </label>
             </div>
             <div class="float-right">
-              <a class="text-muted" href="recover.html">Olvide su clave?</a>
+              <a class="text-muted" href="recover.html">Olvidó su clave?</a>
             </div>
           </div>
 
