@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+  <div class="block-center mt-4 wd-xxl">
+    <div class="card card-flat">
+      <div class="card-header text-center bg-dark">
+        <a href="#">
+          <h1 style="color: white;">MedApp</h1>
+        </a>
+      </div>
+
+      <div class="card-body">
+        <p class="text-center py-2">Regístrese para poder acceder al sistema</p>
+
+        {% if error %}
+          <div class="alert alert-danger" role="alert">
+            {{ error }}
+          </div>
+        {% endif %}
+
+        {{ form(form) }}
+
+        <p class="pt-3 text-center">Ya tienes una cuenta?</p>
+        <a class="btn btn-block btn-secondary" href="login.html">Login</a>
+
+      </div>
+    </div>
+  </div>
+{% endblock %}
