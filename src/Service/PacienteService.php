@@ -46,7 +46,7 @@ class PacienteService
     public function create()
     {
         $paciente = new Paciente();
-        $paciente->setIsActive(boolval(self::PACIENTE_REGISTER_INACTIVE));
+        $paciente->setIsActive(boolval(self::PACIENTE_REGISTER_ACTIVE));
 
         return $paciente;
     }
@@ -74,5 +74,15 @@ class PacienteService
         $this->em->flush();
 
         return $paciente;
+    }
+
+    /**
+     * @param array $attribute
+     *
+     * @return Paciente
+     */
+    public function getByAttribute(array $attribute)
+    {
+        return $this->repository->findOneBy($attribute);
     }
 }

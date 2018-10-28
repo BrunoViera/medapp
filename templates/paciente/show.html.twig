@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block bodyClass %}layout-h{% endblock %}
+
+{% block body %}
+  {{ include('site/blocks/_header.html.twig') }}
+
+  <section class="section-container">
+    <div class="content-wrapper">
+      <div class="unwrap my-3">
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="text-muted mt-0">Detalle de {{ paciente.name }} </h3>
+          </div>
+
+          <div class="card-wrapper">
+            <div class="card-body">
+              <div class="row justify-content-md-center">
+                <div class="col-6">
+                  <pre>
+                    {{ dump(paciente) }}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
