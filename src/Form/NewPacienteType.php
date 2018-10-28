@@ -67,8 +67,7 @@ class NewPacienteType extends AbstractType
                     'required' => false,
                     'label' => 'Fecha de nacimiento',
                     'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
-                    'empty_data' => '',
+                    'format' => 'dd/MM/yyyy'
                 ]
             )
             ->add(

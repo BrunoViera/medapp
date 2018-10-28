@@ -9,9 +9,9 @@
     <div class="content-wrapper">
       <div class="unwrap my-3">
 
-        {% if success is defined %}
-          <div class="alert alert-success" role="alert">{{ success }}</div>
-        {% endif %}
+        {% for msg in app.session.flashBag.get('success') %}
+          <div class="alert alert-success" role="alert">{{ msg }}</div>
+        {% endfor %}
 
         <div class="card">
           <div class="card-header">
