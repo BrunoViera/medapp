@@ -27,31 +27,19 @@ class PacienteController extends Controller
    */
     public function new(PacienteService $pacienteService, Request $request)
     {
-        // build the form
         $paciente = $pacienteService->create();
         $form = $this->createForm(NewPacienteType::class, $paciente);
         $error = false;
 
-        // handle the submit
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 try {
-                    // register the user
                     $pacienteService->register($paciente);
 
-                    // send notification email
-                    // $this->get('mailer_service')->sendEmail(
-                    //     'Registro Correcto',
-                    //     [$doctor->getEmail() => $doctor->getName()],
-                    //     'site/registration/email/_register.html.twig',
-                    //     ['user' => $doctor]
-                    // );
+                    $this->addFlash('success', 'Paciente creado con éxito');
 
-                    $success = 'Usuario creado con éxito';
-                    return $this->render('site/dashboard.html.twig', [
-                        'success' => $success,
-                    ]);
+                    return $this->redirectToRoute('dashboard');
                 } catch (Exception $e) {
                     $error = 'Se produjo un error al realizar el registro del paciente, por favor intente nuevamente.';
                 }

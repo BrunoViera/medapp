@@ -33,10 +33,10 @@ class PacienteService
     public function getGenderList()
     {
         return [
-            1 => self::PACIENTE_GENDER_FEMENINO,
-            2 => self::PACIENTE_GENDER_NO_APLICA,
-            3 => self::PACIENTE_GENDER_MASCULINO,
-            4 => self::PACIENTE_GENDER_DESCONOCIDO,
+            self::PACIENTE_GENDER_FEMENINO => 1,
+            self::PACIENTE_GENDER_NO_APLICA => 2,
+            self::PACIENTE_GENDER_MASCULINO => 3,
+            self::PACIENTE_GENDER_DESCONOCIDO => 4,
         ];
     }
 

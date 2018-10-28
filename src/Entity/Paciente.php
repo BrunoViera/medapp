@@ -58,7 +58,7 @@ class Paciente
 
     /**
      * @Assert\DateTime()
-     * @ORM\Column(name="paciente_birthday", type="datetime", nullable=false)
+     * @ORM\Column(name="paciente_birthday", type="datetime", nullable=true)
      */
     private $birthday;
 
@@ -174,7 +174,7 @@ class Paciente
         return $this->birthday;
     }
 
-    public function setBirthday(\DateTimeInterface $birthday) : self
+    public function setBirthday(\DateTimeInterface $birthday = null) : self
     {
         $this->birthday = $birthday;
         return $this;

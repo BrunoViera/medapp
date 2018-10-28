@@ -51,7 +51,7 @@ class NewPacienteType extends AbstractType
             ->add(
                 'personalId',
                 TextType::class,
-                ['attr' => ['placeholder' => 'Teléfono'], 'label' => 'Teléfono']
+                ['attr' => ['placeholder' => '1.234.567-8'], 'label' => 'Cédula de Identidad']
             )
             ->add(
                 'gender',
@@ -62,23 +62,23 @@ class NewPacienteType extends AbstractType
                 'birthday',
                 DateTimeType::class,
                 [
-                    'html5' => false,
+                    'attr' => ['placeholder' => 'dd/MM/YYYY'],
+                    'html5' => true,
                     'required' => false,
                     'label' => 'Fecha de nacimiento',
                     'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
-                    'placeholder' => 'dd/mm/YYYY'
+                    'format' => 'dd/MM/yyyy'
                 ]
             )
             ->add(
                 'weight',
                 NumberType::class,
-                ['attr' => ['placeholder' => '50.6'], 'label' => 'Peso del paciente']
+                ['attr' => ['placeholder' => '50.6'], 'label' => 'Peso']
             )
             ->add(
                 'height',
                 NumberType::class,
-                ['attr' => ['placeholder' => '1.78'], 'label' => 'Altura del paciene']
+                ['attr' => ['placeholder' => '1.78'], 'label' => 'Altura']
             )
             ->add(
                 'send',
