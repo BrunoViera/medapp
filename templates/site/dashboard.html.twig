@@ -13,6 +13,10 @@
           <div class="alert alert-success" role="alert">{{ msg }}</div>
         {% endfor %}
 
+        {% for msg in app.session.flashBag.get('error') %}
+          <div class="alert alert-danger" role="alert">{{ msg }}</div>
+        {% endfor %}
+
         <div class="card">
           <div class="card-header">
             <h3 class="text-muted mt-0">
@@ -30,14 +34,14 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-12">
-                  <form>
+                  <form method="post" action="{{ path('paciente_search') }}">
                     <div class="input-group input-group-lg">
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-lg">
                           <i class="fa fa-search"></i>
                         </span>
                       </div>
-                      <input type="text" class="form-control" placeholder="Ingrese la cédula ..">
+                      <input type="text" name="personalId" class="form-control" placeholder="Ingrese la cédula ..">
                     </div>
                   </form>
                 </div>
