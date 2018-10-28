@@ -28,7 +28,9 @@ class PacienteService
     }
 
     /**
+     * return a list of gender in an array
      *
+     * @return array
      */
     public function getGenderList()
     {
@@ -38,6 +40,31 @@ class PacienteService
             self::PACIENTE_GENDER_MASCULINO => 3,
             self::PACIENTE_GENDER_DESCONOCIDO => 4,
         ];
+    }
+
+    /**
+     * @param int $gender
+     *
+     * @return array
+     */
+    public function getGenderName($gender)
+    {
+        $name = '';
+        switch ($gender) {
+            case 1:
+                $name = self::PACIENTE_GENDER_FEMENINO;
+                break;
+            case 2:
+                $name = self::PACIENTE_GENDER_NO_APLICA;
+                break;
+            case 3:
+                $name = self::PACIENTE_GENDER_MASCULINO;
+                break;
+            case 4:
+                $name = self::PACIENTE_GENDER_DESCONOCIDO;
+                break;
+        };
+        return $name;
     }
 
     /**
