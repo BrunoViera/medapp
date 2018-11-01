@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
@@ -57,8 +58,8 @@ class DoctorRegistrationType extends AbstractType
                 ['attr' => ['placeholder' => 'Teléfono'], 'label' => 'Teléfono']
             )
             ->add(
-                'identity',
-                TextType::class,
+                'personalId',
+                IntegerType::class,
                 ['attr' => ['placeholder' => '1.234.567-8'], 'label' => 'Cédula de Identidad']
             )
             ->add(

@@ -235,12 +235,12 @@ class Doctor implements UserInterface
         return $this;
     }
 
-    public function getpersonalId() : ? integer
+    public function getpersonalId() : ? int
     {
         return $this->personalId;
     }
 
-    public function setpersonalId(? integer $personalId) : self
+    public function setpersonalId(? int $personalId) : self
     {
         $this->personalId = $personalId;
 
