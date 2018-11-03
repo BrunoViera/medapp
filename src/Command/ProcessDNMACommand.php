@@ -52,29 +52,53 @@ class ProcessDNMACommand extends Command
             $filePath = sprintf('%s/../../assets/xml/DiccionarioMedicamentos.xml', __DIR__);
             $xml = simplexml_load_file($filePath, 'SimpleXMLElement', LIBXML_NOWARNING);
 
-            $io->success('Importing Laboratories');
+            $io->text('Importing Laboratories ');
             $this->processLaboratory($xml->ConceptosAuxiliares->LABORATORIOS->LABORATORIO);
+            $processed = count($xml->ConceptosAuxiliares->LABORATORIOS->LABORATORIO);
+            $io->success(sprintf('Imported %s Laboratories', $processed));
 
+            $io->text('Importing Medicines - AMPS');
+            $this->processAMPS($xml->Conceptos->AMPS->AMP);
+            $processed = count($xml->Conceptos->AMPS->AMP);
+            $io->success(sprintf('Imported %s AMPS', $processed));
 
+            $io->text('Importing Medicines - AMPPS');
+            $this->processAMPPS($xml->Conceptos->AMPPS->AMPP);
+            $processed = count($xml->Conceptos->AMPPS->AMPP);
+            $io->success(sprintf('Imported %s AMPPS', $processed));
 
+            $io->text('Importing Medicines - SUSTANCIAS');
+            $this->processSUSTANCIAS($xml->Conceptos->SUSTANCIAS->SUSTANCIA);
+            $processed = count($xml->Conceptos->SUSTANCIAS->SUSTANCIA);
+            $io->success(sprintf('Imported %s SUSTANCIAS', $processed));
 
+            $io->text('Importing Medicines - TFS');
+            $this->processTFS($xml->Conceptos->TFS->TF);
+            $processed = count($xml->Conceptos->TFS->TF);
+            $io->success(sprintf('Imported %s TFS', $processed));
 
-            $io->success('Importing Medicines - AMPS');
-            $io->success('Importing Medicines - AMPPS');
-            $io->success('Importing Medicines - SUSTANCIAS');
-            $io->success('Importing Medicines - TFS');
-            $io->success('Importing Medicines - TFGS');
-            $io->success('Importing Medicines - VTMS');
-            $io->success('Importing Medicines - VMPS');
-            $io->success('Importing Medicines - VMPPS');
+            $io->text('Importing Medicines - TFGS');
+            $this->processTFGS($xml->Conceptos->TFGS->TFG);
+            $processed = count($xml->Conceptos->TFGS->TFG);
+            $io->success(sprintf('Imported %s TFGS', $processed));
 
+            $io->text('Importing Medicines - VTMS');
+            $this->processVTMS($xml->Conceptos->VTMS->VTM);
+            $processed = count($xml->Conceptos->VTMS->VTM);
+            $io->success(sprintf('Imported %s VTMS', $processed));
 
+            $io->text('Importing Medicines - VMPS');
+            $this->processVMPS($xml->Conceptos->VMPS->VMP);
+            $processed = count($xml->Conceptos->VMPS->VMP);
+            $io->success(sprintf('Imported %s VMPS', $processed));
 
-            // $io->success('Estates from file has been processed successfully!');
+            $io->text('Importing Medicines - VMPPS');
+            $this->processVMPPS($xml->Conceptos->VMPPS->VMPP);
+            $processed = count($xml->Conceptos->VMPPS->VMPP);
+            $io->success(sprintf('Imported %s VMPPS', $processed));
         } catch (Exception $e) {
             $io->error($e->getMessage());
         }
-
 
         $lock->release();
         $txt = '[%s] Finish its execution %s (%s seconds)';
@@ -87,21 +111,170 @@ class ProcessDNMACommand extends Command
     private function processLaboratory(\SimpleXMLElement $laboratories)
     {
         foreach ($laboratories as $item) {
-            $lab = $this->laboratoryService->getByAttribute(['cnmaId' => $item->LAB_Id]);
+            $lab = $this->laboratoryService->getByAttribute(['cnmaId' => (int) $item->LAB_Id]);
             if (!$lab instanceof Laboratory) {
-                $lab = new Laboratory();
+                $lab = $this->laboratoryService->create();
+                $lab->setCnmaId((int)$item->LAB_Id);
             }
-            $lab->setCnmaId((string)$item->LAB_Id);
             $lab->setName((string)$item->NOMBRE);
-            $lab->setValid((string)$item->ESTADOVAL === 'V' ? true : false);
+            $lab->setValid((string)$item->ESTADOVAL === 'V');
             $this->laboratoryService->save($lab);
         }
     }
 
-    private function processMedicine($medicines, string $type)
+    private function processAMPS($medicines)
     {
         foreach ($medicines as $item) {
-            $med = new Medicine();
+            $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->AMP_Id]);
+            if (!$med instanceof Medicine) {
+                $med = $this->medicineService->create();
+                $med->setCnmaId((int)$item->AMP_Id);
+                $med->setType(MedicineService::TYPE_AMPS);
+            }
+
+            $med->setName((string)$item->AMP_DSC);
+            $med->setIsValid((string)$item->AMP_Estado === 'Vigente');
+
+            $med = $this->setLaboratory($item, $med);
+
+            $this->medicineService->save($med);
         }
+    }
+
+    private function processAMPPS($medicines)
+    {
+        foreach ($medicines as $item) {
+            $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->AMPP_Id]);
+            if (!$med instanceof Medicine) {
+                $med = $this->medicineService->create();
+                $med->setCnmaId((int)$item->AMPP_Id);
+                $med->setType(MedicineService::TYPE_AMPPS);
+            }
+
+            $med->setName((string)$item->AMPP_DSC);
+            $med->setIsValid((string)$item->AMPP_Estado === 'Vigente');
+
+            $med = $this->setLaboratory($item, $med);
+
+            $this->medicineService->save($med);
+        }
+    }
+    private function processSUSTANCIAS($medicines)
+    {
+        foreach ($medicines as $item) {
+            $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->SUSTANCIA_ID]);
+            if (!$med instanceof Medicine) {
+                $med = $this->medicineService->create();
+                $med->setCnmaId((int)$item->SUSTANCIA_ID);
+                $med->setType(MedicineService::TYPE_SUSTANCIAS);
+            }
+
+            $med->setName((string)$item->SUSTANCIA_DSC);
+            $med->setIsValid((string)$item->SUSTANCIA_Estado === 'Vigente');
+
+            $med = $this->setLaboratory($item, $med);
+
+            $this->medicineService->save($med);
+        }
+    }
+    private function processTFS($medicines)
+    {
+        foreach ($medicines as $item) {
+            $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->TF_Id]);
+            if (!$med instanceof Medicine) {
+                $med = $this->medicineService->create();
+                $med->setCnmaId((int)$item->TF_Id);
+                $med->setType(MedicineService::TYPE_TFS);
+            }
+
+            $med->setName((string)$item->TF_DSC);
+            $med->setIsValid((string)$item->TF_Estado === 'Vigente');
+
+            $med = $this->setLaboratory($item, $med);
+
+            $this->medicineService->save($med);
+        }
+    }
+    private function processTFGS($medicines)
+    {
+        foreach ($medicines as $item) {
+            $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->TFG_Id]);
+            if (!$med instanceof Medicine) {
+                $med = $this->medicineService->create();
+                $med->setCnmaId((int)$item->TFG_Id);
+                $med->setType(MedicineService::TYPE_TFGS);
+            }
+
+            $med->setName((string)$item->TFG_DSC);
+            $med->setIsValid((string)$item->TFG_Estado === 'Vigente');
+
+            $med = $this->setLaboratory($item, $med);
+
+            $this->medicineService->save($med);
+        }
+    }
+    private function processVTMS($medicines)
+    {
+        foreach ($medicines as $item) {
+            $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->VTM_Id]);
+            if (!$med instanceof Medicine) {
+                $med = $this->medicineService->create();
+                $med->setCnmaId((int)$item->VTM_Id);
+                $med->setType(MedicineService::TYPE_VTMS);
+            }
+
+            $med->setName((string)$item->VTM_DSC);
+            $med->setIsValid((string)$item->VTM_Estado === 'Vigente');
+
+            $med = $this->setLaboratory($item, $med);
+
+            $this->medicineService->save($med);
+        }
+    }
+    private function processVMPS($medicines)
+    {
+        foreach ($medicines as $item) {
+            $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->VMP_Id]);
+            if (!$med instanceof Medicine) {
+                $med = $this->medicineService->create();
+                $med->setCnmaId((int)$item->VMP_Id);
+                $med->setType(MedicineService::TYPE_VMPS);
+            }
+
+            $med->setName((string)$item->VMP_DSC);
+            $med->setIsValid((string)$item->VMP_Estado === 'Vigente');
+
+            $med = $this->setLaboratory($item, $med);
+
+            $this->medicineService->save($med);
+        }
+    }
+    private function processVMPPS($medicines)
+    {
+        foreach ($medicines as $item) {
+            $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->VMPP_Id]);
+            if (!$med instanceof Medicine) {
+                $med = $this->medicineService->create();
+                $med->setCnmaId((int)$item->VMPP_Id);
+                $med->setType(MedicineService::TYPE_VMPPS);
+            }
+
+            $med->setName((string)$item->VMPP_DSC);
+            $med->setIsValid((string)$item->VMPP_Estado === 'Vigente');
+            $med = $this->setLaboratory($item, $med);
+
+            $this->medicineService->save($med);
+        }
+    }
+
+    private function setLaboratory($item, $med)
+    {
+        if (isset($item->LABORATORIO_Id)) {
+            $lab = $this->laboratoryService->getByAttribute(['cnmaId' => $item->LABORATORIO_Id]);
+            if ($lab instanceof Laboratory) {
+                $med->setLaboratory($lab);
+            }
+        }
+        return $med;
     }
 }

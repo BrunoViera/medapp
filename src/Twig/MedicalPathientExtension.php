@@ -2,17 +2,17 @@
 
 namespace App\Twig;
 
-use App\Service\PacienteService;
+use App\Service\MedicalPathientService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-class PacienteExtension extends AbstractExtension
+class MedicalPathientExtension extends AbstractExtension
 {
-    protected $pacienteService;
+    protected $MedicalPathientService;
 
-    public function __construct(PacienteService $pacienteService)
+    public function __construct(MedicalPathientService $medicalPathientService)
     {
-        $this->pacienteService = $pacienteService;
+        $this->medicalPathientService = $medicalPathientService;
     }
 
     public function getFilters()
@@ -28,6 +28,6 @@ class PacienteExtension extends AbstractExtension
      */
     public function getGenderName(int $gender)
     {
-        return $this->pacienteService->getGenderName($gender);
+        return $this->medicalPathientService->getGenderName($gender);
     }
 }

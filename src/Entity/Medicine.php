@@ -6,45 +6,60 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MedicineRepository")
+ * @ORM\Table(name="medicine", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
  */
 class Medicine
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="medicine_id", type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(name="medicine_type", type="string", length=10)
      */
     private $type;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="medicine_cnmaId", type="bigint", unique=true)
      */
     private $cnmaId;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="medicine_description", type="string", length=255, nullable=true)
      */
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="medicine_name", type="string", length=255)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="medicine_is_valid", type="boolean")
      */
     private $isValid;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Laboratory", inversedBy="medicines")
+     * @ORM\JoinColumn(name="medicine_laboratory", referencedColumnName="laboratory_id", nullable=false)
      */
     private $laboratory;
+
+
+    public function getLaboratory(): ?Laboratory
+    {
+        return $this->laboratory;
+    }
+
+    public function setLaboratory(?Laboratory $laboratory): self
+    {
+        $this->laboratory = $laboratory;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -107,18 +122,6 @@ class Medicine
     public function setIsValid(bool $isValid): self
     {
         $this->isValid = $isValid;
-
-        return $this;
-    }
-
-    public function getLaboratory(): ?string
-    {
-        return $this->laboratory;
-    }
-
-    public function setLaboratory(string $laboratory): self
-    {
-        $this->laboratory = $laboratory;
 
         return $this;
     }

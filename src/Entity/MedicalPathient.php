@@ -2,91 +2,104 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\PacienteRepository")
- * @ORM\Table(name="paciente", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
+ * @ORM\Entity(repositoryClass="App\Repository\MedicalPathientRepository")
+ * @ORM\Table(name="medical_pathient", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
  * @UniqueEntity(
  *     fields={"personalId"},
  *     message="La cédula de indentidad ingresada ya existe en la plataforma"
  * )
  */
-class Paciente
+class MedicalPathient
 {
 
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(name="paciente_id", type="integer")
+     * @ORM\Column(name="medical_pathient_id", type="integer")
      */
     private $id;
 
     /**
      * @Assert\NotBlank(message="Debe ingresar un número de Cédula")
-     * @ORM\Column(name="paciente_personal_id", type="string", length=13, unique=true)
+     * @ORM\Column(name="medical_pathient_personal_id", type="string", length=13, unique=true)
      */
     private $personalId;
 
     /**
      * @Assert\NotBlank(message="Debe ingresar un nombre")
      * @Assert\Length(max=64)
-     * @ORM\Column(name="paciente_name", type="string", length=64, nullable=false)
+     * @ORM\Column(name="medical_pathient_name", type="string", length=64, nullable=false)
      */
     protected $name;
 
     /**
      * @Assert\NotBlank(message="Debe ingresar un apellido")
      * @Assert\Length(max=64)
-     * @ORM\Column(name="paciente_last_name", type="string", length=64, nullable=false)
+     * @ORM\Column(name="medical_pathient_last_name", type="string", length=64, nullable=false)
      */
     private $lastName;
 
     /**
-     * @ORM\Column(name="paciente_is_active", type="boolean")
+     * @ORM\Column(name="medical_pathient_is_active", type="boolean")
      */
     private $isActive;
 
     /**
      * @Assert\NotBlank(message="Debe ingresar sus género")
-     * @ORM\Column(name="paciente_gender", type="string", length=127, nullable=false)
+     * @ORM\Column(name="medical_pathient_gender", type="string", length=127, nullable=false)
      */
     private $gender;
 
     /**
      * @Assert\DateTime()
-     * @ORM\Column(name="paciente_birthday", type="datetime", nullable=true)
+     * @ORM\Column(name="medical_pathient_birthday", type="datetime", nullable=true)
      */
     private $birthday;
 
     /**
-     * @Assert\NotBlank(message="Debe ingresar el peso del paciente")
-     * @ORM\Column(name="paciente_weight", type="integer", nullable=false)
+     * @Assert\NotBlank(message="Debe ingresar el peso del MedicalPathient")
+     * @ORM\Column(name="medical_pathient_weight", type="integer", nullable=false)
      */
     private $weight;
 
     /**
-     * @Assert\NotBlank(message="Debe ingresar la altura del paciente")
-     * @ORM\Column(name="paciente_height", type="integer", nullable=false)
+     * @Assert\NotBlank(message="Debe ingresar la altura del MedicalPathient")
+     * @ORM\Column(name="medical_pathient_height", type="integer", nullable=false)
      */
     private $height;
 
     /**
      * @Assert\DateTime()
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="paciente_created_at", type="datetime")
+     * @ORM\Column(name="medical_pathient_created_at", type="datetime")
      */
     private $createdAt;
 
     /**
      * @Assert\DateTime()
      * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="paciente_modified_at", type="datetime")
+     * @ORM\Column(name="medical_pathient_modified_at", type="datetime")
      */
     private $modifiedAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Prescription", mappedBy="medicalPatient", orphanRemoval=true)
+     * @ ORM\JoinColumn(name="medical_pathient_prescriptions", referencedColumnName="prescription_id", nullable=true)
+     */
+    private $prescriptions;
+
+    public function __construct()
+    {
+        $this->prescriptions = new ArrayCollection();
+    }
 
 
     public function getCreatedAt() : ? \DateTimeInterface
@@ -199,6 +212,37 @@ class Paciente
     public function setHeight(int $height) : self
     {
         $this->height = $height;
+        return $this;
+    }
+
+    /**
+     * @return Collection|Prescription[]
+     */
+    public function getPrescriptions(): Collection
+    {
+        return $this->prescriptions;
+    }
+
+    public function addPrescription(Prescription $prescription): self
+    {
+        if (!$this->prescriptions->contains($prescription)) {
+            $this->prescriptions[] = $prescription;
+            $prescription->setMedicalPatient($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrescription(Prescription $prescription): self
+    {
+        if ($this->prescriptions->contains($prescription)) {
+            $this->prescriptions->removeElement($prescription);
+            // set the owning side to null (unless already changed)
+            if ($prescription->getMedicalPatient() === $this) {
+                $prescription->setMedicalPatient(null);
+            }
+        }
+
         return $this;
     }
 }

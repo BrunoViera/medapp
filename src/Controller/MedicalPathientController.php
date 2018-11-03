@@ -2,20 +2,20 @@
 
 namespace App\Controller;
 
-use App\Entity\Paciente;
+use App\Entity\MedicalPathient;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Exception;
-use App\Service\PacienteService;
-use App\Form\NewPacienteType;
+use App\Service\MedicalPathientService;
+use App\Form\NewMedicalPathientType;
 
 /**
  * @Route("/paciente", name="paciente_")
  */
 
-class PacienteController extends Controller
+class MedicalPathientController extends Controller
 {
 
   /**
@@ -25,17 +25,17 @@ class PacienteController extends Controller
    *
    * @return Response
    */
-    public function new(PacienteService $pacienteService, Request $request)
+    public function new(MedicalPathientService $medicalPathientService, Request $request)
     {
-        $paciente = $pacienteService->create();
-        $form = $this->createForm(NewPacienteType::class, $paciente);
+        $medicalPathient = $medicalPathientService->create();
+        $form = $this->createForm(NewMedicalPathientType::class, $medicalPathient);
         $error = false;
 
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 try {
-                    $pacienteService->register($paciente);
+                    $medicalPathientService->register($medicalPathient);
 
                     $this->addFlash('success', 'Paciente creado con éxito');
 
@@ -48,7 +48,7 @@ class PacienteController extends Controller
             }
         }
 
-        return $this->render('paciente/new.html.twig', [
+        return $this->render('medicalPathient/new.html.twig', [
           'form' => $form->createView(),
           'error' => $error,
         ]);
@@ -61,12 +61,12 @@ class PacienteController extends Controller
      *
      * @return Response
     */
-    public function search(PacienteService $pacienteService, Request $request)
+    public function search(MedicalPathientService $medicalPathientService, Request $request)
     {
         $personalId = $request->get('personalId', 0);
-        $paciente = $pacienteService->getByAttribute(['personalId' => $personalId]);
+        $medicalPathient = $medicalPathientService->getByAttribute(['personalId' => $personalId]);
 
-        if (!$paciente instanceof Paciente) {
+        if (!$medicalPathient instanceof MedicalPathient) {
             $this->addFlash('error', sprintf('El paciente con la cédula %s, no existe en el sistema', $personalId));
             return $this->redirectToRoute('dashboard');
         }
@@ -81,17 +81,17 @@ class PacienteController extends Controller
      *
      * @return Response
     */
-    public function show(PacienteService $pacienteService, string $personalId)
+    public function show(MedicalPathientService $medicalPathientService, string $personalId)
     {
-        $paciente = $pacienteService->getByAttribute(['personalId' => $personalId]);
+        $medicalPathient = $medicalPathientService->getByAttribute(['personalId' => $personalId]);
 
-        if (!$paciente instanceof Paciente) {
+        if (!$medicalPathient instanceof MedicalPathient) {
             $this->addFlash('error', sprintf('El paciente con la cédula %s, no existe en el sistema', $personalId));
             return $this->redirectToRoute('dashboard');
         }
 
-        return $this->render('paciente/show.html.twig', [
-          'paciente' => $paciente,
+        return $this->render('medicalPathient/show.html.twig', [
+          'paciente' => $medicalPathient,
         ]);
     }
 }

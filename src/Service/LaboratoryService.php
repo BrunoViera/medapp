@@ -43,6 +43,7 @@ class LaboratoryService
         $this->em->flush();
         return $laboratory;
     }
+
     /**
      * @param array $attribute
      *

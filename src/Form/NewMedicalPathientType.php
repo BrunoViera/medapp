@@ -2,8 +2,8 @@
 
 namespace App\Form;
 
-use App\Entity\Paciente;
-use App\Service\PacienteService;
+use App\Entity\MedicalPathient;
+use App\Service\MedicalPathientService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -21,18 +21,18 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 
-class NewPacienteType extends AbstractType
+class NewMedicalPathientType extends AbstractType
 {
     protected $genderList;
 
     /**
-     * NewPacienteType constructor.
+     * NewMedicalPathientType constructor.
      *
-     * @param PacienteService $pacienteService
+     * @param MedicalPathientService $medicalPathientService
      */
-    public function __construct(PacienteService $pacienteService)
+    public function __construct(MedicalPathientService $medicalPathientService)
     {
-        $this->genderList = $pacienteService->getGenderList();
+        $this->genderList = $medicalPathientService->getGenderList();
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -92,6 +92,6 @@ class NewPacienteType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['data_class' => Paciente::class]);
+        $resolver->setDefaults(['data_class' => MedicalPathient::class]);
     }
 }
