@@ -2,14 +2,14 @@
 
 namespace App\Repository;
 
-use App\Entity\Paciente;
+use App\Entity\MedicalPathient;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class PacienteRepository extends ServiceEntityRepository
+class MedicalPathientRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Paciente::class);
+        parent::__construct($registry, MedicalPathient::class);
     }
 }

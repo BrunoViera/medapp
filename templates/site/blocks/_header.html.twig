@@ -9,18 +9,19 @@
       </a>
     </div>
 
-    <div class="navbar-collapse collapse" id="topnavbar">
+    <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav mr-auto flex-column flex-lg-row"></ul>
 
       <ul class="navbar-nav flex-row">
         <li class="nav-item">
-          <a class="nav-link" href="lock.html" title="Lock screen">
+          <a class="nav-link" href="{{ path('dashboard') }}" title="Preferencias">
             <em class="fa fa-user-md"></em>
-            Dr. Juan Perez
+            {{ app.user.name }}
+            {{ app.user.lastname }}
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ path('logout') }}" title="Lock screen">
+          <a class="nav-link" href="{{ path('logout') }}" title="Cerrar sesión">
             <em class="fa fa-sign-out-alt"></em>
             Cerrar sesíon
           </a>
