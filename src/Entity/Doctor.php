@@ -119,6 +119,11 @@ class Doctor implements UserInterface
         $this->salt = substr(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36), 0, 32);
     }
 
+    public function __toString()
+    {
+        return 'Dr. ' . $this->name . ' ' . $this->lastName;
+    }
+
     public function getCreatedAt() : ? \DateTimeInterface
     {
         return $this->createdAt;

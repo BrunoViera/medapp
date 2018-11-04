@@ -101,6 +101,10 @@ class MedicalPathient
         $this->prescriptions = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->name . '' . $this->lastName;
+    }
 
     public function getCreatedAt() : ? \DateTimeInterface
     {

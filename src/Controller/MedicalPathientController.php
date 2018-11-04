@@ -2,19 +2,20 @@
 
 namespace App\Controller;
 
+use App\Form\PrescriptionType;
 use App\Entity\MedicalPathient;
+use App\Entity\Prescription;
+use App\Form\NewMedicalPathientType;
+use App\Service\MedicalPathientService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Exception;
-use App\Service\MedicalPathientService;
-use App\Form\NewMedicalPathientType;
 
 /**
  * @Route("/paciente", name="paciente_")
  */
-
 class MedicalPathientController extends Controller
 {
 
@@ -90,8 +91,15 @@ class MedicalPathientController extends Controller
             return $this->redirectToRoute('dashboard');
         }
 
+        $formSubmit = $this->generateUrl('prescription_add');
+        $prescription = new Prescription();
+        $prescription->setMedicalPatient($medicalPathient);
+        $prescription->setDoctor($this->getUser());
+        $prescriptionForm = $this->createForm(PrescriptionType::class, $prescription, ['action' => $formSubmit]);
+
         return $this->render('medicalPathient/show.html.twig', [
           'paciente' => $medicalPathient,
+          'prescriptionForm' => $prescriptionForm->createView(),
         ]);
     }
 }

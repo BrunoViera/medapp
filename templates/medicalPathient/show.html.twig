@@ -9,14 +9,41 @@
     <div class="content-wrapper">
       <div class="unwrap my-3">
 
+        {% for msg in app.session.flashBag.get('success') %}
+          <div class="alert alert-success" role="alert">{{ msg }}</div>
+        {% endfor %}
+
+        {% for msg in app.session.flashBag.get('error') %}
+          <div class="alert alert-danger" role="alert">{{ msg }}</div>
+        {% endfor %}
+
+        {% if error is defined and error %}
+          <div class="alert alert-danger" role="alert">{{ error }}</div>
+        {% endif %}
+
+        <div class="card {{ error is not defined ? 'd-none' }} js-medication_card">
+          <div class="card-header">
+            <h3 class="text-muted mt-0">Agregar medicación</h3>
+          </div>
+          <div class="card-wrapper">
+            <div class="card-body">
+              <div class="row">
+                <div class="block-center col-4">
+                  {{ form(prescriptionForm) }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="card">
           <div class="card-header">
             <h3 class="text-muted mt-0">
               {{ paciente.name }} {{ paciente.lastname }}
-              <a class="btn btn-labeled btn-primary float-right" href="{{ path('paciente_add') }}">
+              <button class="btn btn-labeled btn-primary float-right js-add_medication">
                 <span class="btn-label"><i class="fa fa-plus"></i></span>
                 Agregar Medicación
-              </a>
+              </button>
             </h3>
           </div>
 
@@ -49,13 +76,10 @@
                       <thead>
                         <tr role="row">
                           <th rowspan="1" colspan="1" style="min-width: 215px">
-                            <strong>Medicamento nombre generico</strong>
-                          </th>
-                          <th rowspan="1" colspan="1" style="min-width: 230px">
-                              <strong>Medicamento nombre comercial</strong>
+                            <strong>Medicamento</strong>
                           </th>
                           <th rowspan="1" colspan="1" style="min-width: 50px">
-                              <strong>Clase *</strong>
+                              <strong>Clase</strong>
                           </th>
                           <th rowspan="1" colspan="1">
                               <strong>Dósis</strong>
@@ -75,154 +99,34 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr role="row" class="odd">
-                          <td tabindex="0" class="sorting_1">Ibuprofeno</td>
-                          <td>Aspirina</td>
-                          <td>Digestivo</td>
-                          <td>1 comprimido</td>
-                          <td>Por la mañana</td>
-                          <td>04/10/2018</td>
-                          <td></td>
-                          <td class="text-center">
-                            <button class="btn btn-sm btn-secondary" type="button">
-                              <em class="fa fa-info-circle"></em>
-                            </button>
-                          </td>
-                        </tr>
-                        <tr role="row" class="odd">
-                          <td tabindex="0" class="sorting_1">Ibuprofeno</td>
-                          <td>Aspirina</td>
-                          <td>Digestivo</td>
-                          <td>1 comprimido</td>
-                          <td>Por la mañana</td>
-                          <td>04/10/2018</td>
-                          <td></td>
-                          <td class="text-center">
-                            <button class="btn btn-sm btn-secondary" type="button">
-                              <em class="fa fa-info-circle"></em>
-                            </button>
-                          </td>
-                        </tr>
-                        <tr role="row" class="odd">
-                          <td tabindex="0" class="sorting_1">Ibuprofeno</td>
-                          <td>Aspirina</td>
-                          <td>Digestivo</td>
-                          <td>1 comprimido</td>
-                          <td>Por la mañana</td>
-                          <td>04/10/2018</td>
-                          <td></td>
-                          <td class="text-center">
-                            <button class="btn btn-sm btn-secondary" type="button">
-                              <em class="fa fa-info-circle"></em>
-                            </button>
-                          </td>
-                        </tr>
-                        <tr role="row" class="odd">
-                          <td tabindex="0" class="sorting_1">Ibuprofeno</td>
-                          <td>Aspirina</td>
-                          <td>Digestivo</td>
-                          <td>1 comprimido</td>
-                          <td>Por la mañana</td>
-                          <td>04/10/2018</td>
-                          <td></td>
-                          <td class="text-center">
-                            <button class="btn btn-sm btn-secondary" type="button">
-                              <em class="fa fa-info-circle"></em>
-                            </button>
-                          </td>
-                        </tr>
-                        <tr role="row" class="odd">
-                          <td tabindex="0" class="sorting_1">Ibuprofeno</td>
-                          <td>Aspirina</td>
-                          <td>Digestivo</td>
-                          <td>1 comprimido</td>
-                          <td>Por la mañana</td>
-                          <td>04/10/2018</td>
-                          <td></td>
-                          <td class="text-center">
-                            <button class="btn btn-sm btn-secondary" type="button">
-                              <em class="fa fa-info-circle"></em>
-                            </button>
-                          </td>
-                        </tr>
-                        <tr role="row" class="odd">
-                          <td tabindex="0" class="sorting_1">Ibuprofeno</td>
-                          <td>Aspirina</td>
-                          <td>Digestivo</td>
-                          <td>1 comprimido</td>
-                          <td>Por la mañana</td>
-                          <td>04/10/2018</td>
-                          <td></td>
-                          <td class="text-center">
-                            <button class="btn btn-sm btn-secondary" type="button">
-                              <em class="fa fa-info-circle"></em>
-                            </button>
-                          </td>
-                        </tr>
-                        <tr role="row" class="odd">
-                          <td tabindex="0" class="sorting_1">Ibuprofeno</td>
-                          <td>Aspirina</td>
-                          <td>Digestivo</td>
-                          <td>1 comprimido</td>
-                          <td>Por la mañana</td>
-                          <td>04/10/2018</td>
-                          <td></td>
-                          <td class="text-center">
-                            <button class="btn btn-sm btn-secondary" type="button">
-                              <em class="fa fa-info-circle"></em>
-                            </button>
-                          </td>
-                        </tr>
-                        <tr role="row" class="odd">
-                          <td tabindex="0" class="sorting_1">Ibuprofeno</td>
-                          <td>Aspirina</td>
-                          <td>Digestivo</td>
-                          <td>1 comprimido</td>
-                          <td>Por la mañana</td>
-                          <td>04/10/2018</td>
-                          <td></td>
-                          <td class="text-center">
-                            <button class="btn btn-sm btn-secondary" type="button">
-                              <em class="fa fa-info-circle"></em>
-                            </button>
-                          </td>
-                        </tr>
-                        <tr role="row" class="odd">
-                          <td tabindex="0" class="sorting_1">Ibuprofeno</td>
-                          <td>Aspirina</td>
-                          <td>Digestivo</td>
-                          <td>1 comprimido</td>
-                          <td>Por la mañana</td>
-                          <td>04/10/2018</td>
-                          <td></td>
-                          <td class="text-center">
-                            <button class="btn btn-sm btn-secondary" type="button">
-                              <em class="fa fa-info-circle"></em>
-                            </button>
-                          </td>
-                        </tr>
-                        <tr role="row" class="odd">
-                          <td tabindex="0" class="sorting_1">Ibuprofeno</td>
-                          <td>Aspirina</td>
-                          <td>Digestivo</td>
-                          <td>1 comprimido</td>
-                          <td>Por la mañana</td>
-                          <td>04/10/2018</td>
-                          <td></td>
-                          <td class="text-center">
-                            <button class="btn btn-sm btn-secondary" type="button">
-                              <em class="fa fa-info-circle"></em>
-                            </button>
-                          </td>
-                        </tr>
+                        {% for row in paciente.prescriptions %}
+                          <tr role="row" class="odd">
+                            <td>{{ row.medicine }}</td>
+                            <td>{{ row.class }}</td>
+                            <td>{{ row.frequency }}</td>
+                            <td>{{ row.dose }}</td>
+                            <td class="text-center">
+                              {{ row.startAt is not null ? row.startAt|date('d/m/Y') : '--/--/----' }}
+                            </td>
+                            <td class="text-center">
+                              {{ row.endsAt is not null ? row.endsAt|date('d/m/Y') : '--/--/----' }}
+                            </td>
+                            <td></td>
+                            <td class="text-center">
+                              <button class="btn btn-sm btn-secondary" type="button">
+                                <em class="fa fa-info-circle"></em>
+                              </button>
+                            </td>
+                          </tr>
+                        {% endfor %}
                       </tbody>
                     </table>
                   </div>
 
-                  <a class="btn btn-labeled btn-primary float-left" href="{{ path('paciente_add') }}">
+                  <button class="btn btn-labeled btn-primary float-right js-add_medication">
                     <span class="btn-label"><i class="fa fa-plus"></i></span>
                     Agregar Medicación
-                  </a>
+                  </button>
 
                 </div>
               </div>
@@ -233,4 +137,15 @@
       </div>
     </div>
   </section>
+{% endblock %}
+
+{% block js %}
+  <script>
+    var buttons = document.querySelectorAll('.js-add_medication');
+    buttons.forEach(function(btn) {
+      btn.addEventListener('click', function(event){
+        document.querySelector('.js-medication_card').classList.toggle('d-none');
+      });
+    });
+  </script>
 {% endblock %}

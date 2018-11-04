@@ -185,12 +185,12 @@ class Prescription
         return $this;
     }
 
-    public function getMedicalPatient(): ?Paciente
+    public function getMedicalPatient(): ?MedicalPathient
     {
         return $this->medicalPatient;
     }
 
-    public function setMedicalPatient(?Paciente $medicalPatient): self
+    public function setMedicalPatient(?MedicalPathient $medicalPatient): self
     {
         $this->medicalPatient = $medicalPatient;
 

@@ -48,6 +48,10 @@ class Medicine
      */
     private $laboratory;
 
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     public function getLaboratory(): ?Laboratory
     {
