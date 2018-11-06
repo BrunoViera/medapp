@@ -35,3 +35,11 @@
     </div>
   </section>
 {% endblock %}
+
+{% block js %}
+  <script>
+    $(document).ready(function() {
+      $('#new_medical_pathient_birthday').datepicker({format: "dd/mm/yyyy"});
+    });
+  </script>
+{% endblock %}
