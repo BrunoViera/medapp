@@ -93,16 +93,16 @@
                           <th rowspan="1" colspan="1">
                               <strong>Fecha final</strong>
                           </th>
-                          <th class="text-center" rowspan="1" colspan="1">
+                          {# <th class="text-center" rowspan="1" colspan="1">
                             <strong>Detalles</strong>
-                          </th>
+                          </th> #}
                         </tr>
                       </thead>
                       <tbody>
                         {% for row in paciente.prescriptions %}
                           <tr role="row" class="odd">
                             <td>{{ row.medicine }}</td>
-                            <td>{{ row.class }}</td>
+                            <td>{{ row.class|class_name }}</td>
                             <td>{{ row.frequency }}</td>
                             <td>{{ row.dose }}</td>
                             <td class="text-center">
@@ -112,21 +112,16 @@
                               {{ row.endsAt is not null ? row.endsAt|date('d/m/Y') : '--/--/----' }}
                             </td>
                             <td></td>
-                            <td class="text-center">
+                            {# <td class="text-center">
                               <button class="btn btn-sm btn-secondary" type="button">
                                 <em class="fa fa-info-circle"></em>
                               </button>
-                            </td>
+                            </td> #}
                           </tr>
                         {% endfor %}
                       </tbody>
                     </table>
                   </div>
-
-                  <button class="btn btn-labeled btn-primary float-right js-add_medication">
-                    <span class="btn-label"><i class="fa fa-plus"></i></span>
-                    Agregar Medicación
-                  </button>
 
                 </div>
               </div>
@@ -145,6 +140,17 @@
     buttons.forEach(function(btn) {
       btn.addEventListener('click', function(event){
         document.querySelector('.js-medication_card').classList.toggle('d-none');
+      });
+    });
+    $(document).ready(function() {
+      $('#prescription_medicine').select2({width: '100%'});
+      $('#prescription_class').select2({width: '100%'});
+
+      $('#prescription_startAt').datepicker({
+        format: "dd/mm/yyyy"
+      });
+      $('#prescription_endsAt').datepicker({
+        format: "dd/mm/yyyy"
       });
     });
   </script>

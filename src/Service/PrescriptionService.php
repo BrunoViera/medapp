@@ -38,6 +38,34 @@ class PrescriptionService
     }
 
     /**
+     * return the name of a prescription class by the identifier
+     *
+     * @param int $classIdentifier
+     * @return array
+     */
+    public function getClassName($classIdentifier)
+    {
+        switch ($classIdentifier) {
+            case 1:
+                return self::PRESCRIPTION_CLASS_CVASCULAR;
+                break;
+            case 2:
+                return self::PRESCRIPTION_CLASS_DIGESTIVO;
+                break;
+            case 3:
+                return self::PRESCRIPTION_CLASS_NEUROLOGICO;
+                break;
+            case 4:
+                return self::PRESCRIPTION_CLASS_UROLOGICO;
+                break;
+
+            default:
+                return '';
+                break;
+        }
+    }
+
+    /**
      * @return Prescription
      */
     public function create()
