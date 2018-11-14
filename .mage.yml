@@ -4,6 +4,7 @@ magephp:
         medapp:
             user: root
             branch: master
+            from: ./
             host_path: /home/app/medapp
             releases: 3
             exclude:
@@ -17,6 +18,8 @@ magephp:
                 - medapp
             pre-deploy:
                 - git/update
+                - composer/install
             on-deploy:
+                - symfony/cache-warmup: { env: 'prod' }
                 - fs/copy: { from: 'config/env/%environment%.env', to: '.env' }
             post-release:
