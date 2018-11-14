@@ -1,0 +1,22 @@
+magephp:
+    log_dir: /tmp
+    environments:
+        medapp:
+            user: root
+            branch: master
+            host_path: /home/app/medapp
+            releases: 3
+            exclude:
+                - var/cache
+                - var/log
+                - vendor
+                - assets
+                - tests
+                - infra
+            hosts:
+                - medapp
+            pre-deploy:
+                - git/update
+            on-deploy:
+                - fs/copy: { from: 'config/env/%environment%.env', to: '.env' }
+            post-release:
