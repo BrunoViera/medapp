@@ -5,21 +5,21 @@ magephp:
             user: root
             branch: master
             from: ./
-            host_path: /home/app/medapp
+            host_path: /home/app/deploy
             releases: 3
             exclude:
                 - var/cache
                 - var/log
-                - vendor
                 - assets
                 - tests
                 - infra
             hosts:
-                - medapp
+                - 0.0.0.0
             pre-deploy:
                 - git/update
                 - composer/install
             on-deploy:
                 - symfony/cache-warmup: { env: 'prod' }
                 - fs/copy: { from: 'config/env/%environment%.env', to: '.env' }
+                - exec:  { cmd: 'gulp build', desc: 'Building assets ...' }
             post-release:
