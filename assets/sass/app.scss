@@ -40,4 +40,8 @@
 @import "app/common/utils";
 @import "app/common/print";
 
-@import "themes/theme-c"
+@import "themes/theme-c";
+
+body {
+  font-size: 1.1rem;
+}
