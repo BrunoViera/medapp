@@ -61,8 +61,12 @@
                     <li class="list-inline-item">
                       <strong>Fecha de nacimiento</strong> {{ paciente.birthday|date("d/m/Y") }},
                     </li>
-                    <li class="list-inline-item"><strong>Peso</strong> {{ paciente.weight }} Kg,</li>
-                    <li class="list-inline-item"><strong>Altura</strong> {{ paciente.height }} mts</li>
+                    {% if paciente.weight is not null %}
+                      <li class="list-inline-item"><strong>Peso</strong> {{ paciente.weight }} Kg,</li>
+                    {% endif %}
+                    {% if paciente.height is not null %}
+                      <li class="list-inline-item"><strong>Altura</strong> {{ paciente.height }} mts</li>
+                    {% endif %}
                   </ul>
                 </div>
               </div>

@@ -73,12 +73,12 @@ class NewMedicalPathientType extends AbstractType
             ->add(
                 'weight',
                 NumberType::class,
-                ['attr' => ['placeholder' => '50.6'], 'label' => 'Peso']
+                ['attr' => ['placeholder' => '50.6'], 'label' => 'Peso', 'required' => false]
             )
             ->add(
                 'height',
                 NumberType::class,
-                ['attr' => ['placeholder' => '1.78'], 'label' => 'Altura']
+                ['attr' => ['placeholder' => '1.78'], 'label' => 'Altura', 'required' => false]
             )
             ->add(
                 'send',

@@ -65,14 +65,12 @@ class MedicalPathient
     private $birthday;
 
     /**
-     * @Assert\NotBlank(message="Debe ingresar el peso del MedicalPathient")
-     * @ORM\Column(name="medical_pathient_weight", type="integer", nullable=false)
+     * @ORM\Column(name="medical_pathient_weight", type="integer", nullable=true)
      */
     private $weight;
 
     /**
-     * @Assert\NotBlank(message="Debe ingresar la altura del MedicalPathient")
-     * @ORM\Column(name="medical_pathient_height", type="integer", nullable=false)
+     * @ORM\Column(name="medical_pathient_height", type="integer", nullable=true)
      */
     private $height;
 
