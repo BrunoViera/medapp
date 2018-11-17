@@ -79,7 +79,8 @@ class PrescriptionType extends AbstractType
                     'required' => false,
                     'label' => 'Fecha de inicio del tratamiento',
                     'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy'
+                    'format' => 'dd/MM/yyyy',
+                    'data' => new \Datetime(),
                 ]
             )
             ->add(
