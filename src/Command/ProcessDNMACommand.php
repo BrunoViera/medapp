@@ -67,35 +67,35 @@ class ProcessDNMACommand extends Command
             $processed = count($xml->Conceptos->AMPPS->AMPP);
             $io->success(sprintf('Imported %s AMPPS', $processed));
 
-            $io->text('Importing Medicines - SUSTANCIAS');
-            $this->processSUSTANCIAS($xml->Conceptos->SUSTANCIAS->SUSTANCIA);
-            $processed = count($xml->Conceptos->SUSTANCIAS->SUSTANCIA);
-            $io->success(sprintf('Imported %s SUSTANCIAS', $processed));
+            // $io->text('Importing Medicines - SUSTANCIAS');
+            // $this->processSUSTANCIAS($xml->Conceptos->SUSTANCIAS->SUSTANCIA);
+            // $processed = count($xml->Conceptos->SUSTANCIAS->SUSTANCIA);
+            // $io->success(sprintf('Imported %s SUSTANCIAS', $processed));
 
-            $io->text('Importing Medicines - TFS');
-            $this->processTFS($xml->Conceptos->TFS->TF);
-            $processed = count($xml->Conceptos->TFS->TF);
-            $io->success(sprintf('Imported %s TFS', $processed));
+            // $io->text('Importing Medicines - TFS');
+            // $this->processTFS($xml->Conceptos->TFS->TF);
+            // $processed = count($xml->Conceptos->TFS->TF);
+            // $io->success(sprintf('Imported %s TFS', $processed));
 
-            $io->text('Importing Medicines - TFGS');
-            $this->processTFGS($xml->Conceptos->TFGS->TFG);
-            $processed = count($xml->Conceptos->TFGS->TFG);
-            $io->success(sprintf('Imported %s TFGS', $processed));
+            // $io->text('Importing Medicines - TFGS');
+            // $this->processTFGS($xml->Conceptos->TFGS->TFG);
+            // $processed = count($xml->Conceptos->TFGS->TFG);
+            // $io->success(sprintf('Imported %s TFGS', $processed));
 
             $io->text('Importing Medicines - VTMS');
             $this->processVTMS($xml->Conceptos->VTMS->VTM);
             $processed = count($xml->Conceptos->VTMS->VTM);
             $io->success(sprintf('Imported %s VTMS', $processed));
 
-            $io->text('Importing Medicines - VMPS');
-            $this->processVMPS($xml->Conceptos->VMPS->VMP);
-            $processed = count($xml->Conceptos->VMPS->VMP);
-            $io->success(sprintf('Imported %s VMPS', $processed));
+            // $io->text('Importing Medicines - VMPS');
+            // $this->processVMPS($xml->Conceptos->VMPS->VMP);
+            // $processed = count($xml->Conceptos->VMPS->VMP);
+            // $io->success(sprintf('Imported %s VMPS', $processed));
 
-            $io->text('Importing Medicines - VMPPS');
-            $this->processVMPPS($xml->Conceptos->VMPPS->VMPP);
-            $processed = count($xml->Conceptos->VMPPS->VMPP);
-            $io->success(sprintf('Imported %s VMPPS', $processed));
+            // $io->text('Importing Medicines - VMPPS');
+            // $this->processVMPPS($xml->Conceptos->VMPPS->VMPP);
+            // $processed = count($xml->Conceptos->VMPPS->VMPP);
+            // $io->success(sprintf('Imported %s VMPPS', $processed));
         } catch (Exception $e) {
             $io->error($e->getMessage());
         }
@@ -125,38 +125,42 @@ class ProcessDNMACommand extends Command
     private function processAMPS($medicines)
     {
         foreach ($medicines as $item) {
-            $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->AMP_Id]);
-            if (!$med instanceof Medicine) {
-                $med = $this->medicineService->create();
-                $med->setCnmaId((int)$item->AMP_Id);
-                $med->setType(MedicineService::TYPE_AMPS);
+            if ($item->AMP_Estado !== 'Borrador') {
+                $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->AMP_Id]);
+                if (!$med instanceof Medicine) {
+                    $med = $this->medicineService->create();
+                    $med->setCnmaId((int)$item->AMP_Id);
+                    $med->setType(MedicineService::TYPE_AMPS);
+                }
+
+                $med->setName((string)$item->AMP_DSC);
+                $med->setIsValid((string)$item->AMP_Estado === 'Vigente');
+
+                $med = $this->setLaboratory($item, $med);
+
+                $this->medicineService->save($med);
             }
-
-            $med->setName((string)$item->AMP_DSC);
-            $med->setIsValid((string)$item->AMP_Estado === 'Vigente');
-
-            $med = $this->setLaboratory($item, $med);
-
-            $this->medicineService->save($med);
         }
     }
 
     private function processAMPPS($medicines)
     {
         foreach ($medicines as $item) {
-            $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->AMPP_Id]);
-            if (!$med instanceof Medicine) {
-                $med = $this->medicineService->create();
-                $med->setCnmaId((int)$item->AMPP_Id);
-                $med->setType(MedicineService::TYPE_AMPPS);
+            if ($item->AMPP_Estado !== 'Borrador') {
+                $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->AMPP_Id]);
+                if (!$med instanceof Medicine) {
+                    $med = $this->medicineService->create();
+                    $med->setCnmaId((int)$item->AMPP_Id);
+                    $med->setType(MedicineService::TYPE_AMPPS);
+                }
+
+                $med->setName((string)$item->AMPP_DSC);
+                $med->setIsValid((string)$item->AMPP_Estado === 'Vigente');
+
+                $med = $this->setLaboratory($item, $med);
+
+                $this->medicineService->save($med);
             }
-
-            $med->setName((string)$item->AMPP_DSC);
-            $med->setIsValid((string)$item->AMPP_Estado === 'Vigente');
-
-            $med = $this->setLaboratory($item, $med);
-
-            $this->medicineService->save($med);
         }
     }
     private function processSUSTANCIAS($medicines)
@@ -216,19 +220,21 @@ class ProcessDNMACommand extends Command
     private function processVTMS($medicines)
     {
         foreach ($medicines as $item) {
-            $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->VTM_Id]);
-            if (!$med instanceof Medicine) {
-                $med = $this->medicineService->create();
-                $med->setCnmaId((int)$item->VTM_Id);
-                $med->setType(MedicineService::TYPE_VTMS);
+            if ($item->VTM_Estado !== 'Borrador') {
+                $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->VTM_Id]);
+                if (!$med instanceof Medicine) {
+                    $med = $this->medicineService->create();
+                    $med->setCnmaId((int)$item->VTM_Id);
+                    $med->setType(MedicineService::TYPE_VTMS);
+                }
+
+                $med->setName((string)$item->VTM_DSC);
+                $med->setIsValid((string)$item->VTM_Estado === 'Vigente');
+
+                $med = $this->setLaboratory($item, $med);
+
+                $this->medicineService->save($med);
             }
-
-            $med->setName((string)$item->VTM_DSC);
-            $med->setIsValid((string)$item->VTM_Estado === 'Vigente');
-
-            $med = $this->setLaboratory($item, $med);
-
-            $this->medicineService->save($med);
         }
     }
     private function processVMPS($medicines)
