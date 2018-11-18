@@ -4,6 +4,7 @@
 # /public/css/
 # /public/js/
 /public/manifest.json
+/public/css
 /node_modules/*
 /var/
 /vendor/
