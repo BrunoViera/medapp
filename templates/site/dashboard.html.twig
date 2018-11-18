@@ -36,12 +36,13 @@
                 <div class="col-12">
                   <form method="post" action="{{ path('paciente_search') }}">
                     <div class="input-group input-group-lg">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-lg">
-                          <i class="fa fa-search"></i>
-                        </span>
-                      </div>
                       <input type="text" autofocus name="personalId" class="form-control" placeholder="Ingrese la cédula ..">
+                      <div class="input-group-append">
+                          <button class="btn btn-outline-secondary input-group-text" type="submit">
+                            <i class="fa fa-search"></i>
+                            &nbsp;Buscar
+                          </button>
+                      </div>
                     </div>
                   </form>
                 </div>
