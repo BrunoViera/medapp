@@ -44,9 +44,15 @@ class Medicine
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Laboratory", inversedBy="medicines")
-     * @ORM\JoinColumn(name="medicine_laboratory", referencedColumnName="laboratory_id", nullable=false)
+     * @ORM\JoinColumn(name="medicine_laboratory", referencedColumnName="laboratory_id", nullable=true)
      */
     private $laboratory;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Medicine")
+     * @ORM\JoinColumn(name="medicine_related", referencedColumnName="medicine_id", nullable=true)
+     */
+    private $related;
 
     public function __toString()
     {
@@ -126,6 +132,18 @@ class Medicine
     public function setIsValid(bool $isValid): self
     {
         $this->isValid = $isValid;
+
+        return $this;
+    }
+
+    public function getRelated(): ?self
+    {
+        return $this->related;
+    }
+
+    public function setRelated(?self $related): self
+    {
+        $this->related = $related;
 
         return $this;
     }

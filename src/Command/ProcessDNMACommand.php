@@ -125,7 +125,7 @@ class ProcessDNMACommand extends Command
     private function processAMPS($medicines)
     {
         foreach ($medicines as $item) {
-            if ($item->AMP_Estado !== 'Borrador') {
+            if ($item->AMP_EstValidacion !== 'Borrador') {
                 $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->AMP_Id]);
                 if (!$med instanceof Medicine) {
                     $med = $this->medicineService->create();
@@ -146,12 +146,17 @@ class ProcessDNMACommand extends Command
     private function processAMPPS($medicines)
     {
         foreach ($medicines as $item) {
-            if ($item->AMPP_Estado !== 'Borrador') {
+            if ($item->AMPP_EstValidacion !== 'Borrador') {
                 $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->AMPP_Id]);
+                $related = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->AMP_Id]);
                 if (!$med instanceof Medicine) {
                     $med = $this->medicineService->create();
                     $med->setCnmaId((int)$item->AMPP_Id);
                     $med->setType(MedicineService::TYPE_AMPPS);
+                }
+
+                if (!$related instanceof Medicine) {
+                    $med->setRelated($related);
                 }
 
                 $med->setName((string)$item->AMPP_DSC);
@@ -220,7 +225,7 @@ class ProcessDNMACommand extends Command
     private function processVTMS($medicines)
     {
         foreach ($medicines as $item) {
-            if ($item->VTM_Estado !== 'Borrador') {
+            if ($item->VTM_EstValidacion !== 'Borrador') {
                 $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->VTM_Id]);
                 if (!$med instanceof Medicine) {
                     $med = $this->medicineService->create();
