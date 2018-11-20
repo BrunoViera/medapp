@@ -49,7 +49,7 @@ class ProcessDNMACommand extends Command
         $timeStart = time();
 
         try {
-            $filePath = sprintf('%s/../../assets/xml/DiccionarioMedicamentos.xml', __DIR__);
+            $filePath = sprintf('%s/../../assets/xml/DiccionarioMedicamentos-2.xml', __DIR__);
             $xml = simplexml_load_file($filePath, 'SimpleXMLElement', LIBXML_NOWARNING);
 
             $io->text('Importing Laboratories ');
@@ -67,6 +67,11 @@ class ProcessDNMACommand extends Command
             $processed = count($xml->Conceptos->AMPPS->AMPP);
             $io->success(sprintf('Imported %s AMPPS', $processed));
 
+            $io->text('Importing Medicines - VTMS');
+            $this->processVTMS($xml->Conceptos->VTMS->VTM);
+            $processed = count($xml->Conceptos->VTMS->VTM);
+            $io->success(sprintf('Imported %s VTMS', $processed));
+
             // $io->text('Importing Medicines - SUSTANCIAS');
             // $this->processSUSTANCIAS($xml->Conceptos->SUSTANCIAS->SUSTANCIA);
             // $processed = count($xml->Conceptos->SUSTANCIAS->SUSTANCIA);
@@ -81,11 +86,6 @@ class ProcessDNMACommand extends Command
             // $this->processTFGS($xml->Conceptos->TFGS->TFG);
             // $processed = count($xml->Conceptos->TFGS->TFG);
             // $io->success(sprintf('Imported %s TFGS', $processed));
-
-            $io->text('Importing Medicines - VTMS');
-            $this->processVTMS($xml->Conceptos->VTMS->VTM);
-            $processed = count($xml->Conceptos->VTMS->VTM);
-            $io->success(sprintf('Imported %s VTMS', $processed));
 
             // $io->text('Importing Medicines - VMPS');
             // $this->processVMPS($xml->Conceptos->VMPS->VMP);
@@ -110,6 +110,7 @@ class ProcessDNMACommand extends Command
 
     private function processLaboratory(\SimpleXMLElement $laboratories)
     {
+        $cont = 0;
         foreach ($laboratories as $item) {
             $lab = $this->laboratoryService->getByAttribute(['cnmaId' => (int) $item->LAB_Id]);
             if (!$lab instanceof Laboratory) {
@@ -119,11 +120,17 @@ class ProcessDNMACommand extends Command
             $lab->setName((string)$item->NOMBRE);
             $lab->setValid((string)$item->ESTADOVAL === 'V');
             $this->laboratoryService->save($lab);
+            $cont = $cont +1;
+            if ($cont % 200 === 0) {
+                $this->medicineService->flush();
+            }
         }
+        $this->medicineService->flush();
     }
 
     private function processAMPS($medicines)
     {
+        $cont = 0;
         foreach ($medicines as $item) {
             if ($item->AMP_EstValidacion !== 'Borrador') {
                 $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->AMP_Id]);
@@ -139,12 +146,18 @@ class ProcessDNMACommand extends Command
                 $med = $this->setLaboratory($item, $med);
 
                 $this->medicineService->save($med);
+                $cont = $cont +1;
+                if ($cont % 200 === 0) {
+                    $this->medicineService->flush();
+                }
             }
         }
+        $this->medicineService->flush();
     }
 
     private function processAMPPS($medicines)
     {
+        $cont = 0;
         foreach ($medicines as $item) {
             if ($item->AMPP_EstValidacion !== 'Borrador') {
                 $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->AMPP_Id]);
@@ -165,9 +178,43 @@ class ProcessDNMACommand extends Command
                 $med = $this->setLaboratory($item, $med);
 
                 $this->medicineService->save($med);
+                $cont = $cont +1;
+                if ($cont % 200 === 0) {
+                    $this->medicineService->flush();
+                }
             }
         }
+        $this->medicineService->flush();
     }
+
+    private function processVTMS($medicines)
+    {
+        $cont = 0;
+        foreach ($medicines as $item) {
+            if ($item->VTM_EstValidacion !== 'Borrador') {
+                $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->VTM_Id]);
+                if (!$med instanceof Medicine) {
+                    $med = $this->medicineService->create();
+                    $med->setCnmaId((int)$item->VTM_Id);
+                    $med->setType(MedicineService::TYPE_VTMS);
+                }
+
+                $med->setName((string)$item->VTM_DSC);
+                $med->setIsValid((string)$item->VTM_Estado === 'Vigente');
+
+                $med = $this->setLaboratory($item, $med);
+
+                $this->medicineService->save($med);
+                $cont = $cont +1;
+                if ($cont % 200 === 0) {
+                    $this->medicineService->flush();
+                }
+            }
+        }
+        $this->medicineService->flush();
+    }
+
+
     private function processSUSTANCIAS($medicines)
     {
         foreach ($medicines as $item) {
@@ -222,26 +269,7 @@ class ProcessDNMACommand extends Command
             $this->medicineService->save($med);
         }
     }
-    private function processVTMS($medicines)
-    {
-        foreach ($medicines as $item) {
-            if ($item->VTM_EstValidacion !== 'Borrador') {
-                $med = $this->medicineService->getByAttribute(['cnmaId' => (int)$item->VTM_Id]);
-                if (!$med instanceof Medicine) {
-                    $med = $this->medicineService->create();
-                    $med->setCnmaId((int)$item->VTM_Id);
-                    $med->setType(MedicineService::TYPE_VTMS);
-                }
 
-                $med->setName((string)$item->VTM_DSC);
-                $med->setIsValid((string)$item->VTM_Estado === 'Vigente');
-
-                $med = $this->setLaboratory($item, $med);
-
-                $this->medicineService->save($med);
-            }
-        }
-    }
     private function processVMPS($medicines)
     {
         foreach ($medicines as $item) {

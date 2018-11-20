@@ -110,10 +110,10 @@
                             <td>{{ row.frequency }}</td>
                             <td>{{ row.dose }}</td>
                             <td class="text-center">
-                              {{ row.startAt is not null ? row.startAt|date('d/m/Y') : '--/--/----' }}
+                              {{ row.startAt is not null ? row.startAt|date('d/m/Y') : 'Sin especificar' }}
                             </td>
                             <td class="text-center">
-                              {{ row.endsAt is not null ? row.endsAt|date('d/m/Y') : '--/--/----' }}
+                              {{ row.endsAt is not null ? row.endsAt|date('d/m/Y') : 'Sin especificar' }}
                             </td>
                             <td></td>
                             {# <td class="text-center">

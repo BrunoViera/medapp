@@ -37,9 +37,13 @@ class MedicineService
     public function save(Medicine $medicine)
     {
         $this->em->persist($medicine);
-        $this->em->flush();
 
         return $medicine;
+    }
+
+    public function flush()
+    {
+        $this->em->flush();
     }
 
     /**

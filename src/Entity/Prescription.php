@@ -72,6 +72,11 @@ class Prescription
      */
     private $medicalPatient;
 
+    /**
+     * @ORM\Column(name="prescription_active", type="boolean", nullable=false)
+     */
+    private $active;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -193,6 +198,18 @@ class Prescription
     public function setMedicalPatient(?MedicalPathient $medicalPatient): self
     {
         $this->medicalPatient = $medicalPatient;
+
+        return $this;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }
