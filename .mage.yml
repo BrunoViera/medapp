@@ -20,7 +20,6 @@ magephp:
                 - composer/install
             on-deploy:
                 - symfony/cache-warmup: { env: 'prod' }
-                - fs/chmod: { file: '/home/app/deploy', mode: 777 }
                 - fs/copy: { from: 'config/env/%environment%.env', to: '.env' }
                 - exec:  { cmd: 'gulp build', desc: 'Building assets ...' }
             post-release:
