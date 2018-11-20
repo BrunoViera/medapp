@@ -77,6 +77,11 @@ class Prescription
      */
     private $active;
 
+    public function __construct()
+    {
+        $this->active = true;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
