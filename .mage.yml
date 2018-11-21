@@ -5,7 +5,7 @@ magephp:
             user: app
             branch: master
             from: ./
-            host_path: /var/www/
+            host_path: /home/app/deploy
             releases: 3
             exclude:
                 - var/cache
