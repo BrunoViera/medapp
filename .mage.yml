@@ -2,7 +2,7 @@ magephp:
     log_dir: /tmp
     environments:
         medapp:
-            user: ubuntu
+            user: app
             branch: master
             from: ./
             host_path: /var/www/
