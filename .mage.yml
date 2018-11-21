@@ -2,10 +2,10 @@ magephp:
     log_dir: /tmp
     environments:
         medapp:
-            user: app
+            user: ubuntu
             branch: master
             from: ./
-            host_path: /www
+            host_path: /var/www/
             releases: 3
             exclude:
                 - var/cache
