@@ -40,8 +40,13 @@ class PrescriptionController extends Controller
                 $error = 'Se produjo un error al realizar la prescripción, por favor intente nuevamente.';
             }
         }
+        if ($error) {
+            $this->addFlash('error', $error);
+        }
 
-        $personalId = $prescription->getMedicalPatient()->getPersonalId();
-        return $this->redirectToRoute('paciente_show', array('personalId' => $personalId));
+        return $this->render('medicalPathient/show.html.twig', [
+          'paciente' => $prescription->getMedicalPatient(),
+          'prescriptionForm' => $form->createView(),
+        ]);
     }
 }
