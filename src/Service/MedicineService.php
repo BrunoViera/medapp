@@ -67,4 +67,22 @@ class MedicineService
     {
         return $this->repository->findOneBy($attribute);
     }
+
+    /**
+     * @param string $name
+     *
+     * @return Medicine
+     */
+    public function search(string $name)
+    {
+        $data = [];
+        if (strlen($name) > 2) {
+            $medicines = $this->repository->search($name);
+            foreach ($medicines as $key => $value) {
+                $data[] = ['id' => $value->getId(), 'name' => $value->getName()];
+            }
+        }
+
+        return $data;
+    }
 }
