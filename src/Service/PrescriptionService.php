@@ -12,6 +12,12 @@ class PrescriptionService
     const PRESCRIPTION_CLASS_DIGESTIVO = 'Digestivo';
     const PRESCRIPTION_CLASS_NEUROLOGICO = 'Neurológico';
     const PRESCRIPTION_CLASS_UROLOGICO = 'Urológico';
+    const PRESCRIPTION_CLASS_MED_INTERNA = 'Med. Interna';
+    const PRESCRIPTION_CLASS_PSIQUIATRIA = 'Psiquiatría';
+    const PRESCRIPTION_CLASS_NEUMOLOGIA = 'Neumología';
+    const PRESCRIPTION_CLASS_DERMATOLOGIA = 'Dermatología';
+    const PRESCRIPTION_CLASS_HEMATOLOGIA = 'Hematología';
+    const PRESCRIPTION_CLASS_REUMATOLOGIA = 'Reumatología';
 
     protected $em;
     protected $repository;
@@ -34,6 +40,12 @@ class PrescriptionService
             self::PRESCRIPTION_CLASS_DIGESTIVO => 2,
             self::PRESCRIPTION_CLASS_NEUROLOGICO => 3,
             self::PRESCRIPTION_CLASS_UROLOGICO => 4,
+            self::PRESCRIPTION_CLASS_MED_INTERNA => 5,
+            self::PRESCRIPTION_CLASS_PSIQUIATRIA => 6,
+            self::PRESCRIPTION_CLASS_NEUMOLOGIA => 7,
+            self::PRESCRIPTION_CLASS_DERMATOLOGIA => 8,
+            self::PRESCRIPTION_CLASS_HEMATOLOGIA => 9,
+            self::PRESCRIPTION_CLASS_REUMATOLOGIA => 10,
         ];
     }
 
@@ -57,6 +69,24 @@ class PrescriptionService
                 break;
             case 4:
                 return self::PRESCRIPTION_CLASS_UROLOGICO;
+                break;
+            case 5:
+                return self::PRESCRIPTION_CLASS_MED_INTERNA;
+                break;
+            case 6:
+                return self::PRESCRIPTION_CLASS_PSIQUIATRIA;
+                break;
+            case 7:
+                return self::PRESCRIPTION_CLASS_NEUMOLOGIA;
+                break;
+            case 8:
+                return self::PRESCRIPTION_CLASS_DERMATOLOGIA;
+                break;
+            case 9:
+                return self::PRESCRIPTION_CLASS_HEMATOLOGIA;
+                break;
+            case 10:
+                return self::PRESCRIPTION_CLASS_REUMATOLOGIA;
                 break;
 
             default:
