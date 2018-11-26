@@ -45,3 +45,18 @@
 body {
   font-size: 1.1rem;
 }
+
+.section-container {
+  max-width: 1340px;
+}
+
+.ss-main.form-control {
+  border: none;
+  padding: 0;
+}
+#prescription_class,
+#prescription_medicine {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
