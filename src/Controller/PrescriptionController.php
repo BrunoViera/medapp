@@ -33,6 +33,8 @@ class PrescriptionController extends Controller
                     $prescriptiontService->save($prescription);
 
                     $this->addFlash('success', 'Medicación asignada');
+                    $personalId = $prescription->getMedicalPatient()->getPersonalId();
+                    return $this->redirectToRoute('paciente_show', array('personalId' => $personalId));
                 } catch (Exception $e) {
                     $error = 'Se produjo un error al realizar la prescripción, por favor intente nuevamente.';
                 }
@@ -40,9 +42,8 @@ class PrescriptionController extends Controller
                 $error = 'Se produjo un error al realizar la prescripción, por favor intente nuevamente.';
             }
         }
-        if ($error) {
-            $this->addFlash('error', $error);
-        }
+
+        $this->addFlash('error', $error);
 
         return $this->render('medicalPathient/show.html.twig', [
           'paciente' => $prescription->getMedicalPatient(),

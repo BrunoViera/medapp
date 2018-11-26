@@ -2,9 +2,12 @@
 
 namespace App\Form;
 
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use App\Entity\Prescription;
 use App\Entity\Medicine;
 use App\Service\PrescriptionService;
+use App\Repository\MedicineRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -19,15 +22,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class PrescriptionType extends AbstractType
 {
     protected $classList;
+    protected $medicineRepository;
 
     /**
      * prescriptionType constructor.
      *
      * @param PrescriptionService $prescriptionService
      */
-    public function __construct(PrescriptionService $prescriptionService)
+    public function __construct(PrescriptionService $prescriptionService, MedicineRepository $medicineRepository)
     {
         $this->classList = $prescriptionService->getClassList();
+        $this->medicineRepository = $medicineRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -39,6 +44,7 @@ class PrescriptionType extends AbstractType
                 'medicine',
                 EntityType::class,
                 array_merge([
+                    'choices' => [],
                     'placeholder' => 'Seleccione un medicamento',
                     'class' => Medicine::class,
                     'label' => 'Medicamento',
@@ -110,8 +116,27 @@ class PrescriptionType extends AbstractType
                     ['class' => 'btn btn-block btn-danger mt-3 js-add_medication'],
                     'label' => 'Cancelar'
                 ]
+            )->addEventListener(
+                FormEvents::PRE_SUBMIT,
+                array($this, 'onPreSetData')
             );
-        ;
+
+        $builder->get('medicine')->resetViewTransformers();
+    }
+
+    public function onPreSetData(FormEvent $event)
+    {
+        $prescription = $event->getData();
+        $form = $event->getForm();
+
+        if (!$prescription) {
+            return;
+        }
+        $medicine = $this->medicineRepository->findOneBy(['id' => $prescription['medicine']]);
+        if (isset($medicine)) {
+            $prescription['medicine'] = $medicine;
+            $event->setData($prescription);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)

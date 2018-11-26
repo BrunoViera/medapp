@@ -28,7 +28,7 @@
           <div class="card-wrapper">
             <div class="card-body">
               <div class="row">
-                <div class="block-center col-4">
+                <div class="block-center col-6">
                   {{ form(prescriptionForm) }}
                 </div>
               </div>
@@ -103,7 +103,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        {% for row in paciente.prescriptions %}
+                        {% for row in paciente.prescriptions|sort|reverse %}
                           <tr role="row" class="odd">
                             <td>{{ row.medicine }}</td>
                             <td>{{ row.class|class_name }}</td>
@@ -147,15 +147,57 @@
       });
     });
     $(document).ready(function() {
-      $('#prescription_medicine').select2({width: '100%'});
-      $('#prescription_class').select2({width: '100%'});
-
       $('#prescription_startAt').datepicker({
         format: "dd/mm/yyyy"
       });
       $('#prescription_endsAt').datepicker({
         format: "dd/mm/yyyy"
       });
+
+
+    new SlimSelect({
+      select: '#prescription_class',
     });
+    new SlimSelect({
+      select: '#prescription_medicine',
+      searchingText: 'Buscando medicamentos...',
+      searchPlaceholder: 'Ingrese 3 letras o mas para filtrar el medicamento',
+      searchHighlight: true,
+      ajax: function (search, callback) {
+        if (search.length < 3) {
+          callback('Necesita ingresar 3 letras o más')
+          return
+        }
+
+        // Perform your own ajax request here
+        fetch(`/medicamento/search?name=${search}`)
+        .then(function (response) {
+          return response.json()
+        })
+        .then(function (json) {
+          let data = []
+          for (let i = 0; i < json.length; i++) {
+            data.push({value: json[i].id ,text: json[i].name})
+          }
+
+          // Upon successful fetch send data to callback function.
+          // Be sure to send data back in the proper format.
+          // Refer to the method setData for examples of proper format.
+          callback(data)
+        })
+        .catch(function(error) {
+          // If any erros happened send false back through the callback
+          callback(false)
+        })
+      }
+    })
+});
+
   </script>
+  <style>
+    .ss-main.form-control {
+      border: none;
+      padding: 0;
+    }
+  </style>
 {% endblock %}
