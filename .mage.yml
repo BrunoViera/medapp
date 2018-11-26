@@ -18,8 +18,8 @@ magephp:
             pre-deploy:
                 - git/update
                 - composer/install
+                - exec:  { cmd: 'gulp build', desc: 'Building assets ...' }
             on-deploy:
                 - symfony/cache-warmup: { env: 'prod' }
                 - fs/copy: { from: 'config/env/%environment%.env', to: '.env' }
-                - exec:  { cmd: 'gulp build', desc: 'Building assets ...' }
             post-release:
