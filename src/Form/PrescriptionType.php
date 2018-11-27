@@ -62,14 +62,14 @@ class PrescriptionType extends AbstractType
                     ])
             )
             ->add(
-                'dose',
-                TextType::class,
-                ['attr' => ['placeholder' => '1 píldora'], 'required' => true, 'label' => 'Dósis']
-            )
-            ->add(
                 'frequency',
                 TextType::class,
                 ['attr' => ['placeholder' => 'cada 8 horas'], 'required' => true, 'label' => 'Frecuencia']
+            )
+            ->add(
+                'dose',
+                TextType::class,
+                ['attr' => ['placeholder' => '1 píldora'], 'required' => true, 'label' => 'Dosis']
             )
             ->add(
                 'description',
