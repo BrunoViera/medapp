@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  {% if app.user is not empty %}
+    {{ include('site/blocks/_header.html.twig') }}
+  {% endif %}
+
+  <div class="wrapper error-wrapper">
+    <div class="abs-center wd-xl">
+      <div class="text-center mb-4">
+        <div class="text-lg mb-3">404</div>
+        <p class="lead m-0">No pudimos encontrar la página que busca.</p>
+      </div>
+      {% if app.user is empty %}
+        <div class="text-center mb-4">
+          <a href="{{ path('login') }}">Volver al login</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
