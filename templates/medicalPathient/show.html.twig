@@ -86,17 +86,17 @@
                               <strong>Clase</strong>
                           </th>
                           <th rowspan="1" colspan="1">
-                              <strong>Dósis</strong>
+                              <strong>Dosis</strong>
                           </th>
                           <th rowspan="1" colspan="1">
                               <strong>Frecuencia</strong>
                           </th>
-                          <th rowspan="1" colspan="1">
+                          {# <th rowspan="1" colspan="1">
                               <strong>Fecha inicio</strong>
                           </th>
                           <th rowspan="1" colspan="1">
                               <strong>Fecha final</strong>
-                          </th>
+                          </th> #}
                           {# <th class="text-center" rowspan="1" colspan="1">
                             <strong>Detalles</strong>
                           </th> #}
@@ -107,14 +107,14 @@
                           <tr role="row" class="odd">
                             <td>{{ row.medicine }}</td>
                             <td>{{ row.class|class_name }}</td>
-                            <td>{{ row.frequency }}</td>
                             <td>{{ row.dose }}</td>
-                            <td class="text-center">
+                            <td>{{ row.frequency }}</td>
+                            {# <td class="text-center">
                               {{ row.startAt is not null ? row.startAt|date('d/m/Y') : 'Sin especificar' }}
                             </td>
                             <td class="text-center">
                               {{ row.endsAt is not null ? row.endsAt|date('d/m/Y') : 'Sin especificar' }}
-                            </td>
+                            </td> #}
                             <td></td>
                             {# <td class="text-center">
                               <button class="btn btn-sm btn-secondary" type="button">
