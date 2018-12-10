@@ -116,6 +116,7 @@
                               <th rowspan="1" colspan="1">
                                 <strong>Frecuencia</strong>
                               </th>
+                              <th rowspan="1" colspan="1"></th>
                             </tr>
                           </thead>
                           <tbody>
@@ -125,7 +126,10 @@
                                 <td>{{ row.class|class_name }}</td>
                                 <td>{{ row.dose }}</td>
                                 <td>{{ row.frequency }}</td>
-                                <td></td>
+                                <td>
+                                  <a class="btn" style="padding: 0 10px 0 0; font-size: 1rem;"><span class="fa fa-print"></span></a>
+                                  <a class="btn" style="padding: 0 10px 0 0; font-size: 1rem;"><span class="fa fa-info"></span></a>
+                                </td>
                               </tr>
                             {% endfor %}
                           </tbody>
