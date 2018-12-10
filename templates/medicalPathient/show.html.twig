@@ -40,10 +40,6 @@
           <div class="card-header">
             <h3 class="text-muted mt-0">
               {{ paciente.name }} {{ paciente.lastname }}
-              <button class="btn btn-labeled btn-primary float-right js-add_medication">
-                <span class="btn-label"><i class="fa fa-plus"></i></span>
-                Agregar Medicación
-              </button>
             </h3>
           </div>
 
@@ -53,8 +49,6 @@
 
                 <div class="col-12">
                   <ul class="list-inline">
-                    <li class="list-inline-item"><strong>Nombre</strong> {{ paciente.name }},</li>
-                    <li class="list-inline-item"><strong>Apellido</strong> {{ paciente.lastname }},</li>
                     <li class="list-inline-item">
                       <strong>Género</strong> {{ paciente.gender|gender_name }},
                     </li>
@@ -71,62 +65,74 @@
                 </div>
               </div>
 
-              <hr>
-
               <div class="row">
-                <div class="col-12">
-                  <div class="table-responsive">
-                    <table class="table table-striped table-hover w-100 dataTable no-footer dtr-inline"role="grid">
-                      <thead>
-                        <tr role="row">
-                          <th rowspan="1" colspan="1" style="min-width: 215px">
-                            <strong>Medicamento</strong>
-                          </th>
-                          <th rowspan="1" colspan="1" style="min-width: 50px">
-                              <strong>Clase</strong>
-                          </th>
-                          <th rowspan="1" colspan="1">
-                              <strong>Dosis</strong>
-                          </th>
-                          <th rowspan="1" colspan="1">
-                              <strong>Frecuencia</strong>
-                          </th>
-                          {# <th rowspan="1" colspan="1">
-                              <strong>Fecha inicio</strong>
-                          </th>
-                          <th rowspan="1" colspan="1">
-                              <strong>Fecha final</strong>
-                          </th> #}
-                          {# <th class="text-center" rowspan="1" colspan="1">
-                            <strong>Detalles</strong>
-                          </th> #}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for row in paciente.prescriptions|sort|reverse %}
-                          <tr role="row" class="odd">
-                            <td>{{ row.medicine }}</td>
-                            <td>{{ row.class|class_name }}</td>
-                            <td>{{ row.dose }}</td>
-                            <td>{{ row.frequency }}</td>
-                            {# <td class="text-center">
-                              {{ row.startAt is not null ? row.startAt|date('d/m/Y') : 'Sin especificar' }}
-                            </td>
-                            <td class="text-center">
-                              {{ row.endsAt is not null ? row.endsAt|date('d/m/Y') : 'Sin especificar' }}
-                            </td> #}
-                            <td></td>
-                            {# <td class="text-center">
-                              <button class="btn btn-sm btn-secondary" type="button">
-                                <em class="fa fa-info-circle"></em>
-                              </button>
-                            </td> #}
-                          </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
+                <div class="col-xl-3 col-lg-4">
+                  <div class="mb-boxes collapse show" style="">
+                    <div class="card card-default">
+                      <div class="card-body">
+                        <ul class="nav nav-pills flex-column">
+                          <li class="nav-item">
+                            <a class="nav-link d-flex" href="#">
+                              <span>Agregar Medicación</span>
+                            </a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link d-flex" href="#">
+                              <span>Prescripciones Activas</span>
+                            </a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link d-flex" href="#">
+                              <span>Prescripciones Terminadas</span>
+                            </a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link d-flex" href="#">
+                              <span>Editar datos del paciente</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
+                </div>
 
+                <div class="col-xl-9 col-lg-8">
+                  <div class="card card-default">
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table table-striped table-hover w-100 dataTable no-footer dtr-inline" role="grid">
+                          <thead>
+                            <tr role="row">
+                              <th rowspan="1" colspan="1" style="min-width: 215px">
+                                <strong>Medicamento</strong>
+                              </th>
+                              <th rowspan="1" colspan="1" style="min-width: 50px">
+                                <strong>Clase</strong>
+                              </th>
+                              <th rowspan="1" colspan="1">
+                                <strong>Dosis</strong>
+                              </th>
+                              <th rowspan="1" colspan="1">
+                                <strong>Frecuencia</strong>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for row in paciente.prescriptions | sort | reverse %}
+                              <tr role="row" class="odd">
+                                <td>{{ row.medicine }}</td>
+                                <td>{{ row.class|class_name }}</td>
+                                <td>{{ row.dose }}</td>
+                                <td>{{ row.frequency }}</td>
+                                <td></td>
+                              </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
