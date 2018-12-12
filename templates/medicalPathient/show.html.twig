@@ -7,7 +7,7 @@
 
   <section class="section-container">
     <div class="content-wrapper">
-      <div class="unwrap my-3">
+      <div class="my-3">
 
         {% for msg in app.session.flashBag.get('success') %}
           <div class="alert alert-success" role="alert">{{ msg }}</div>
@@ -20,21 +20,6 @@
         {% if error is defined and error %}
           <div class="alert alert-danger" role="alert">{{ error }}</div>
         {% endif %}
-
-        <div class="card {{ error is not defined ? 'd-none' }} js-medication_card">
-          <div class="card-header">
-            <h3 class="text-muted mt-0">Agregar medicación</h3>
-          </div>
-          <div class="card-wrapper">
-            <div class="card-body">
-              <div class="row">
-                <div class="block-center col-6">
-                  {{ form(prescriptionForm) }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <div class="card">
           <div class="card-header">
@@ -66,78 +51,19 @@
               </div>
 
               <div class="row">
-                <div class="col-xl-3 col-lg-4">
-                  <div class="mb-boxes collapse show" style="">
-                    <div class="card card-default">
-                      <div class="card-body">
-                        <ul class="nav nav-pills flex-column">
-                          <li class="nav-item">
-                            <a class="nav-link d-flex" href="#">
-                              <span>Agregar Medicación</span>
-                            </a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link d-flex" href="#">
-                              <span>Prescripciones Activas</span>
-                            </a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link d-flex" href="#">
-                              <span>Prescripciones Terminadas</span>
-                            </a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link d-flex" href="#">
-                              <span>Editar datos del paciente</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-                <div class="col-xl-9 col-lg-8">
-                  <div class="card card-default">
-                    <div class="card-body">
-                      <div class="table-responsive">
-                        <table class="table table-striped table-hover w-100 dataTable no-footer dtr-inline" role="grid">
-                          <thead>
-                            <tr role="row">
-                              <th rowspan="1" colspan="1" style="min-width: 215px">
-                                <strong>Medicamento</strong>
-                              </th>
-                              <th rowspan="1" colspan="1" style="min-width: 50px">
-                                <strong>Clase</strong>
-                              </th>
-                              <th rowspan="1" colspan="1">
-                                <strong>Dosis</strong>
-                              </th>
-                              <th rowspan="1" colspan="1">
-                                <strong>Frecuencia</strong>
-                              </th>
-                              <th rowspan="1" colspan="1"></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {% for row in paciente.prescriptions | sort | reverse %}
-                              <tr role="row" class="odd">
-                                <td>{{ row.medicine }}</td>
-                                <td>{{ row.class|class_name }}</td>
-                                <td>{{ row.dose }}</td>
-                                <td>{{ row.frequency }}</td>
-                                <td>
-                                  <a class="btn" style="padding: 0 10px 0 0; font-size: 1rem;"><span class="fa fa-print"></span></a>
-                                  <a class="btn" style="padding: 0 10px 0 0; font-size: 1rem;"><span class="fa fa-info"></span></a>
-                                </td>
-                              </tr>
-                            {% endfor %}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {{ include('medicalPathient/blocks/_side-bar.html.twig') }}
+
+                {% if view == 'EDIT' %}
+                  {{ include('medicalPathient/blocks/_edit-pathient.html.twig') }}
+                {% endif %}
+                {% if view == 'PRESCRIPTIONS' %}
+                  {{ include('medicalPathient/blocks/_prescription-list.html.twig') }}
+                {% endif %}
+                {% if view == 'PRESCRIPTION_NEW' %}
+                  {{ include('medicalPathient/blocks/_prescription-new.html.twig') }}
+                {% endif %}
+
               </div>
             </div>
           </div>
@@ -146,62 +72,4 @@
       </div>
     </div>
   </section>
-{% endblock %}
-
-{% block js %}
-  <script>
-    var buttons = document.querySelectorAll('.js-add_medication');
-    buttons.forEach(function(btn) {
-      btn.addEventListener('click', function(event){
-        document.querySelector('.js-medication_card').classList.toggle('d-none');
-      });
-    });
-    $(document).ready(function() {
-      $('#prescription_startAt').datepicker({
-        format: "dd/mm/yyyy"
-      });
-      $('#prescription_endsAt').datepicker({
-        format: "dd/mm/yyyy"
-      });
-
-
-    new SlimSelect({
-      select: '#prescription_class',
-    });
-    new SlimSelect({
-      select: '#prescription_medicine',
-      searchingText: 'Buscando medicamentos...',
-      searchPlaceholder: 'Ingrese 3 letras o mas para filtrar el medicamento',
-      searchHighlight: true,
-      ajax: function (search, callback) {
-        if (search.length < 3) {
-          callback('Necesita ingresar 3 letras o más')
-          return
-        }
-
-        // Perform your own ajax request here
-        fetch(`/medicamento/search?name=${search}`)
-        .then(function (response) {
-          return response.json()
-        })
-        .then(function (json) {
-          let data = []
-          for (let i = 0; i < json.length; i++) {
-            data.push({value: json[i].id ,text: json[i].name})
-          }
-
-          // Upon successful fetch send data to callback function.
-          // Be sure to send data back in the proper format.
-          // Refer to the method setData for examples of proper format.
-          callback(data)
-        })
-        .catch(function(error) {
-          // If any erros happened send false back through the callback
-          callback(false)
-        })
-      }
-    })
-});
-
-  </script>
 {% endblock %}
