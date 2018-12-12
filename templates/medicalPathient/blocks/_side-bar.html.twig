@@ -1,0 +1,34 @@
+<div class="col-xl-3 col-lg-4">
+  <div class="mb-boxes collapse show" style="">
+    <div class="card card-default">
+      <div class="card-body">
+        <ul class="nav nav-pills flex-column">
+          <li class="nav-item">
+            <a class="nav-link d-flex {{ view == 'PRESCRIPTION_NEW' ? 'active' }}"
+              href="{{ path('paciente_prescription_new', {personalId: paciente.personalId }) }}">
+              <span>Agregar Medicación</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex {{ view == 'PRESCRIPTIONS' and status ? 'active' }}"
+              href="{{ path('paciente_prescriptions_enable', {personalId: paciente.personalId }) }}">
+              <span>Prescripciones Activas</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex {{ view == 'PRESCRIPTIONS' and not status ? 'active' }}"
+              href="{{ path('paciente_prescriptions_disable', {personalId: paciente.personalId }) }}">
+              <span>Prescripciones Terminadas</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex {{ view == 'EDIT' ? 'active' }}"
+              href="{{ path('paciente_edit', {personalId: paciente.personalId }) }}">
+              <span>Editar datos del paciente</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

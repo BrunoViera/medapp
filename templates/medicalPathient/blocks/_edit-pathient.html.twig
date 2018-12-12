@@ -1,0 +1,19 @@
+<div class="col-xl-9 col-lg-8">
+  <div class="card card-default">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-8">
+          {{ form(form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block js %}
+    <script>
+        $(document).ready(function () {
+            $('#new_medical_pathient_birthday').datepicker({format: "dd/mm/yyyy"});
+        });
+    </script>
+{% endblock %}
