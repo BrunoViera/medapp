@@ -51,19 +51,20 @@
               </div>
 
               <div class="row">
+                  {{ include('medicalPathient/blocks/_side-bar.html.twig') }}
 
-                {{ include('medicalPathient/blocks/_side-bar.html.twig') }}
+                <div class="col-9">
+                  {% if view == 'EDIT' %}
+                    {{ include('medicalPathient/blocks/_edit-pathient.html.twig') }}
+                  {% endif %}
+                  {% if view == 'PRESCRIPTIONS' %}
+                    {{ include('medicalPathient/blocks/_prescription-list.html.twig') }}
+                  {% endif %}
+                  {% if view == 'PRESCRIPTION_NEW' %}
+                    {{ include('medicalPathient/blocks/_prescription-new.html.twig') }}
+                  {% endif %}
 
-                {% if view == 'EDIT' %}
-                  {{ include('medicalPathient/blocks/_edit-pathient.html.twig') }}
-                {% endif %}
-                {% if view == 'PRESCRIPTIONS' %}
-                  {{ include('medicalPathient/blocks/_prescription-list.html.twig') }}
-                {% endif %}
-                {% if view == 'PRESCRIPTION_NEW' %}
-                  {{ include('medicalPathient/blocks/_prescription-new.html.twig') }}
-                {% endif %}
-
+                </div>
               </div>
             </div>
           </div>
