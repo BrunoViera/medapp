@@ -21,12 +21,12 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 
-class NewMedicalPathientType extends AbstractType
+class MedicalPathientType extends AbstractType
 {
     protected $genderList;
 
     /**
-     * NewMedicalPathientType constructor.
+     * MedicalPathientType constructor.º
      *
      * @param MedicalPathientService $medicalPathientService
      */
@@ -37,6 +37,13 @@ class NewMedicalPathientType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $id = $options['data']->getId();
+        if (isset($id)) {
+            $btnTxt = 'Guardar';
+        } else {
+            $btnTxt = 'Registrar Paciente';
+        }
+
         $builder
             ->add(
                 'name',
@@ -73,19 +80,19 @@ class NewMedicalPathientType extends AbstractType
             ->add(
                 'weight',
                 NumberType::class,
-                ['attr' => ['placeholder' => '50.6'], 'label' => 'Peso', 'required' => false]
+                ['attr' => ['placeholder' => '50.6'], 'label' => 'Peso (Kg)', 'required' => false]
             )
             ->add(
                 'height',
                 NumberType::class,
-                ['attr' => ['placeholder' => '1.78'], 'label' => 'Altura', 'required' => false]
+                ['attr' => ['placeholder' => '178'], 'label' => 'Altura (cm)', 'required' => false]
             )
             ->add(
                 'send',
                 SubmitType::class,
                 ['attr' =>
                     ['class' => 'btn btn-block btn-primary mt-3'],
-                    'label' => 'Registrar Paciente'
+                    'label' => $btnTxt
                 ]
             );
     }

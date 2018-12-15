@@ -6,7 +6,7 @@ use App\Form\PrescriptionType;
 use App\Service\PrescriptionService;
 use App\Entity\MedicalPathient;
 use App\Entity\Prescription;
-use App\Form\NewMedicalPathientType;
+use App\Form\MedicalPathientType;
 use App\Service\MedicalPathientService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,7 +30,7 @@ class MedicalPathientController extends Controller
     public function new(MedicalPathientService $medicalPathientService, Request $request)
     {
         $medicalPathient = $medicalPathientService->create();
-        $form = $this->createForm(NewMedicalPathientType::class, $medicalPathient);
+        $form = $this->createForm(MedicalPathientType::class, $medicalPathient);
         $error = false;
 
         $form->handleRequest($request);
@@ -102,12 +102,17 @@ class MedicalPathientController extends Controller
     /**
      * @Route("/edit/{personalId}", name="edit")
      *
+     * @param MedicalPathientService $medicalPathientService
      * @param string $personalId
+     * @param Request $request
      *
      * @return Response
     */
-    public function edit(MedicalPathientService $medicalPathientService, string $personalId)
-    {
+    public function edit(
+        MedicalPathientService $medicalPathientService,
+        string $personalId,
+        Request $request
+    ) {
         $medicalPathient = $medicalPathientService->getByAttribute(['personalId' => $personalId]);
 
         if (!$medicalPathient instanceof MedicalPathient) {
@@ -115,8 +120,33 @@ class MedicalPathientController extends Controller
             return $this->redirectToRoute('dashboard');
         }
 
-        $form = $this->createForm(NewMedicalPathientType::class, $medicalPathient);
+        $form = $this->createForm(MedicalPathientType::class, $medicalPathient);
 
+        $error = false;
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            if ($form->isSubmitted()) {
+                if ($form->isValid()) {
+                    try {
+                        $medicalPathientService->edit($medicalPathient);
+                        $this->addFlash('success', 'Paciente Actualizado');
+
+                        return $this->redirectToRoute(
+                            'paciente_show',
+                            [
+                                'personalId' => $medicalPathient->getPersonalId()
+                            ]
+                        );
+                    } catch (Exception $e) {
+                        $error = 'Se produjo un error al guardar los datos del paciente, por favor intente nuevamente.';
+                    }
+                } else {
+                    $error = 'Se produjo un error al guardar los datos del paciente, por favor intente nuevamente.';
+                }
+                $this->addFlash('error', $error);
+            }
+        }
 
         return $this->render('medicalPathient/show.html.twig', [
           'paciente' => $medicalPathient,
@@ -198,11 +228,12 @@ class MedicalPathientController extends Controller
                         $prescriptiontService->save($prescription);
 
                         $this->addFlash('success', 'Medicación asignada');
-                        return $this->render('medicalPathient/show.html.twig', [
-                            'paciente' => $medicalPathient,
-                            'view' => 'PRESCRIPTIONS',
-                            'status' => true
-                            ]);
+                        return $this->redirectToRoute(
+                            'paciente_show',
+                            [
+                                'personalId' => $medicalPathient->getPersonalId()
+                            ]
+                        );
                     } catch (Exception $e) {
                         $error = 'Se produjo un error al realizar la prescripción, por favor intente nuevamente.';
                     }
@@ -217,7 +248,6 @@ class MedicalPathientController extends Controller
             $prescription->setDoctor($this->getUser());
             $prescriptionForm = $this->createForm(PrescriptionType::class, $prescription);
         }
-
 
         return $this->render('medicalPathient/show.html.twig', [
           'paciente' => $medicalPathient,
