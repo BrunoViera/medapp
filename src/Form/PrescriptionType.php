@@ -109,14 +109,7 @@ class PrescriptionType extends AbstractType
                     'label' => 'Agregar Medicación'
                 ]
             )
-            ->add(
-                'cancel',
-                ButtonType::class,
-                ['attr' =>
-                    ['class' => 'btn btn-block btn-danger mt-3 js-add_medication'],
-                    'label' => 'Cancelar'
-                ]
-            )->addEventListener(
+            ->addEventListener(
                 FormEvents::PRE_SUBMIT,
                 array($this, 'onPreSetData')
             );

@@ -46,8 +46,9 @@ body {
   font-size: 1.1rem;
 }
 
-.section-container {
-  max-width: 1340px;
+
+.layout-h .wrapper .section-container {
+  max-width: 100%;
 }
 
 .ss-main.form-control {
@@ -63,4 +64,33 @@ body {
 
 .error-wrapper {
   min-height: 400px;
+}
+
+.btn_rounded {
+  padding: 3px 6px;
+}
+
+.link-unstyled {
+  &,
+  &:visited,
+  &:hover,
+  &:active,
+  &:focus,
+  &:active:hover {
+    font-style: inherit;
+    color: inherit;
+    background-color: transparent;
+    font-size: inherit;
+    text-decoration: none;
+    font-variant: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    font-family: inherit;
+    border-radius: inherit;
+    border: inherit;
+    outline: inherit;
+    box-shadow: inherit;
+    padding: inherit;
+    vertical-align: inherit;
+  }
 }
